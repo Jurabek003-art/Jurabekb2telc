@@ -1,19 +1,36 @@
 body {
   margin: 0;
   padding: 20px;
-  background: #111827;
-  color: white;
+  background: #18181b;
+  color: #e4e4e7;
   font-family: Arial, sans-serif;
   text-align: center;
 }
 
 h1 {
+  color: #f4f4f5;
   margin-bottom: 30px;
 }
 
 h2 {
-  background: #1f2937;
+  background: #27272a;
+  color: #e4e4e7;
   padding: 20px;
-  margin: 15px 0;
+  margin: 14px 0;
   border-radius: 16px;
+  font-weight: 500;
+}
+
+a {
+  color: #e4e4e7;
+  text-decoration: none;
+}
+
+button {
+  background: #3f3f46;
+  color: #f4f4f5;
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 18px;
 }
