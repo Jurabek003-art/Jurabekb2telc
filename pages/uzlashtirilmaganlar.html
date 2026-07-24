@@ -1,50 +1,818 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>O'zlashtirilmaganlar</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      padding: 20px;
-      background: #111827;
-      color: white;
-      font-family: Arial, sans-serif;
-    }
+<title>O'zlashtirilmaganlar</title>
 
-    .back {
-      color: white;
-      text-decoration: none;
-      font-size: 18px;
-    }
+<style>
+*{box-sizing:border-box}
 
-    h1 {
-      text-align: center;
-      margin-top: 30px;
-    }
+body{
+ margin:0;
+ padding:18px;
+ background:#10141c;
+ color:#f2f2f2;
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
 
-    .card {
-      background: #1f2937;
-      padding: 25px;
-      margin-top: 25px;
-      border-radius: 18px;
-      text-align: center;
-    }
-  </style>
+.back{
+ color:#ddd;
+ text-decoration:none;
+ font-size:17px;
+}
+
+h1{
+ text-align:center;
+ margin:28px 0 8px;
+}
+
+.subtitle{
+ text-align:center;
+ color:#9299a6;
+ margin-bottom:28px;
+}
+
+/* ASOSIY BO'LIMLAR */
+
+.section{
+ background:#1b212c;
+ border:1px solid #303846;
+ border-radius:18px;
+ padding:18px;
+ margin:14px 0;
+}
+
+.section-top{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ margin-bottom:15px;
+}
+
+.section-title{
+ font-size:21px;
+ font-weight:700;
+}
+
+.section-percent{
+ background:#293343;
+ padding:7px 11px;
+ border-radius:10px;
+ font-weight:700;
+}
+
+.bar{
+ height:8px;
+ background:#303846;
+ border-radius:20px;
+ overflow:hidden;
+ margin-bottom:16px;
+}
+
+.bar-inner{
+ height:100%;
+ background:#d7bd78;
+ border-radius:20px;
+}
+
+/* TEIL */
+
+.teil{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ background:#242b37;
+ border:1px solid #384251;
+ padding:16px;
+ margin:9px 0;
+ border-radius:14px;
+ cursor:pointer;
+}
+
+.teil-left{
+ display:flex;
+ flex-direction:column;
+ gap:4px;
+}
+
+.teil-name{
+ font-size:17px;
+ font-weight:700;
+}
+
+.teil-info{
+ color:#9299a6;
+ font-size:13px;
+}
+
+.teil-right{
+ text-align:right;
+}
+
+.teil-percent{
+ font-weight:700;
+ margin-bottom:3px;
+}
+
+.arrow{
+ color:#9299a6;
+}
+
+/* SAVOLLAR */
+
+#quiz{
+ display:none;
+}
+
+.quiz-head{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin:20px 0;
+}
+
+.quiz-title{
+ font-size:22px;
+ font-weight:700;
+}
+
+.question-card{
+ background:#1b212c;
+ border:1px solid #303846;
+ border-radius:18px;
+ padding:20px;
+ margin-top:15px;
+}
+
+.test-name{
+ color:#9299a6;
+ font-size:14px;
+ margin-bottom:8px;
+}
+
+.mastery{
+ display:inline-block;
+ background:#293343;
+ padding:6px 10px;
+ border-radius:9px;
+ font-size:13px;
+ margin-bottom:15px;
+}
+
+.question{
+ font-size:22px;
+ font-weight:700;
+ margin:8px 0 20px;
+}
+
+.option{
+ width:100%;
+ text-align:left;
+ padding:15px;
+ margin:7px 0;
+ border:1px solid #384251;
+ border-radius:12px;
+ background:#242b37;
+ color:white;
+ font-size:15px;
+}
+
+.option:disabled{
+ opacity:.9;
+}
+
+.correct{
+ background:#245038!important;
+}
+
+.wrong{
+ background:#5a2929!important;
+}
+
+.next{
+ width:100%;
+ padding:15px;
+ margin-top:15px;
+ border:0;
+ border-radius:12px;
+ background:#d7bd78;
+ color:#111;
+ font-size:16px;
+ font-weight:700;
+}
+
+.empty{
+ background:#1b212c;
+ border:1px solid #303846;
+ padding:35px 20px;
+ border-radius:18px;
+ text-align:center;
+ margin-top:25px;
+}
+
+.empty-icon{
+ font-size:50px;
+}
+
+.hidden{
+ display:none!important;
+}
+</style>
 </head>
 
 <body>
 
-  <a class="back" href="../index.html">← Orqaga</a>
+<a class="back" href="../index.html">← Orqaga</a>
 
-  <h1>❌ O'zlashtirilmaganlar</h1>
+<div id="dashboard">
 
-  <div class="card">
-    <h2>Hozircha xato savollar yo'q</h2>
-    <p>Xato ishlagan savollaring shu yerda chiqadi.</p>
-  </div>
+<h1>🧠 O'zlashtirilmaganlar</h1>
+
+<div class="subtitle">
+ Xato savollarni 3 marta to'g'ri topib o'zlashtiring
+</div>
+
+<div id="sections"></div>
+
+</div>
+
+
+<div id="quiz">
+
+ <div class="quiz-head">
+   <a href="#" class="back" onclick="backDashboard();return false;">
+     ← Orqaga
+   </a>
+
+   <div id="quizTitle" class="quiz-title"></div>
+ </div>
+
+ <div id="quizContent"></div>
+
+</div>
+
+
+<script>
+
+// =======================================
+// MA'LUMOT
+// =======================================
+
+function getWrongs(){
+
+ try{
+   return JSON.parse(
+     localStorage.getItem("wrongQuestions") || "[]"
+   );
+ }catch(e){
+   return [];
+ }
+
+}
+
+function saveWrongs(data){
+
+ localStorage.setItem(
+   "wrongQuestions",
+   JSON.stringify(data)
+ );
+
+}
+
+
+// =======================================
+// BO'LIMLAR
+// =======================================
+
+const structure = [
+
+ {
+   id:"lesen",
+   name:"Lesen",
+   icon:"📖",
+   teils:["1","2","3"]
+ },
+
+ {
+   id:"horen",
+   name:"Hören",
+   icon:"🎧",
+   teils:["1","2","3"]
+ },
+
+ {
+   id:"sprach",
+   name:"Sprachbausteine",
+   icon:"✍️",
+   teils:["1","2"]
+ }
+
+];
+
+
+// =======================================
+// FOIZ
+//
+// 0/3 = 0%
+// 1/3 = 33%
+// 2/3 = 67%
+// 3/3 = savol o'chadi
+// =======================================
+
+function masteryPercent(items){
+
+ if(!items.length){
+   return 100;
+ }
+
+ let total=0;
+
+ items.forEach(item=>{
+   total += Math.min(item.correctCount || 0,3);
+ });
+
+ return Math.round(
+   (total/(items.length*3))*100
+ );
+
+}
+
+
+// =======================================
+// DASHBOARD
+// =======================================
+
+function renderDashboard(){
+
+ const container=
+   document.getElementById("sections");
+
+ const wrongs=getWrongs();
+
+ container.innerHTML="";
+
+
+ structure.forEach(section=>{
+
+   const sectionItems=wrongs.filter(
+     x=>x.section===section.id
+   );
+
+   const percent=
+     masteryPercent(sectionItems);
+
+
+   const box=document.createElement("div");
+
+   box.className="section";
+
+
+   let teilsHTML="";
+
+
+   section.teils.forEach(teil=>{
+
+     const items=sectionItems.filter(
+       x=>String(x.teil)===String(teil)
+     );
+
+     const teilPercent=
+       masteryPercent(items);
+
+
+     teilsHTML+=`
+
+       <div class="teil"
+         onclick="openTeil('${section.id}','${teil}')">
+
+         <div class="teil-left">
+
+           <div class="teil-name">
+             Teil ${teil}
+           </div>
+
+           <div class="teil-info">
+             ${items.length} ta xato savol
+           </div>
+
+         </div>
+
+
+         <div class="teil-right">
+
+           <div class="teil-percent">
+             ${teilPercent}%
+           </div>
+
+           <div class="arrow">›</div>
+
+         </div>
+
+       </div>
+
+     `;
+
+   });
+
+
+   box.innerHTML=`
+
+     <div class="section-top">
+
+       <div class="section-title">
+         ${section.icon} ${section.name}
+       </div>
+
+       <div class="section-percent">
+         ${percent}%
+       </div>
+
+     </div>
+
+
+     <div class="bar">
+
+       <div
+         class="bar-inner"
+         style="width:${percent}%">
+       </div>
+
+     </div>
+
+
+     ${teilsHTML}
+
+   `;
+
+
+   container.appendChild(box);
+
+ });
+
+}
+
+let activeSection="";
+let activeTeil="";
+let activeItems=[];
+let activeIndex=0;
+
+
+// =======================================
+// TEILNI OCHISH
+// =======================================
+
+function openTeil(section,teil){
+
+ activeSection=section;
+ activeTeil=teil;
+
+ const wrongs=getWrongs();
+
+ activeItems=wrongs.filter(
+   x=>
+     x.section===section &&
+     String(x.teil)===String(teil)
+ );
+
+ // Random
+ activeItems=shuffle(activeItems);
+
+ activeIndex=0;
+
+
+ document
+   .getElementById("dashboard")
+   .style.display="none";
+
+ document
+   .getElementById("quiz")
+   .style.display="block";
+
+
+ const sectionData=
+   structure.find(x=>x.id===section);
+
+ document.getElementById("quizTitle")
+   .textContent=
+   sectionData.name+" · Teil "+teil;
+
+
+ showWrongQuestion();
+
+}
+
+
+// =======================================
+// RANDOM
+// =======================================
+
+function shuffle(arr){
+
+ const a=[...arr];
+
+ for(let i=a.length-1;i>0;i--){
+
+   const j=
+     Math.floor(Math.random()*(i+1));
+
+   [a[i],a[j]]=[a[j],a[i]];
+
+ }
+
+ return a;
+
+}
+
+
+// =======================================
+// SAVOL
+// =======================================
+
+function showWrongQuestion(){
+
+ const content=
+   document.getElementById("quizContent");
+
+
+ // SAVOL QOLMAGAN
+ if(activeItems.length===0){
+
+   content.innerHTML=`
+
+     <div class="empty">
+
+       <div class="empty-icon">🎉</div>
+
+       <h2>Xato savollar yo'q</h2>
+
+       <p>
+         Bu Teil bo'yicha hozircha
+         o'zlashtirilmagan savol qolmagan.
+       </p>
+
+       <button class="next"
+         onclick="backDashboard()">
+         ← Bo'limlarga qaytish
+       </button>
+
+     </div>
+
+   `;
+
+   return;
+
+ }
+
+
+ if(activeIndex>=activeItems.length){
+   activeIndex=0;
+ }
+
+
+ const item=activeItems[activeIndex];
+
+
+ // Shu Teil ichidagi boshqa to'g'ri javoblar
+ let allWrongs=getWrongs();
+
+ let pool=allWrongs
+   .filter(
+     x=>
+       x.section===activeSection &&
+       String(x.teil)===String(activeTeil)
+   )
+   .map(x=>x.answer)
+   .filter(x=>x && x!==item.answer);
+
+
+ // Variantlarni random qilamiz
+ pool=shuffle([...new Set(pool)]);
+
+
+ // 4 tagacha variant
+ let answers=pool.slice(0,3);
+
+ answers.push(item.answer);
+
+ answers=shuffle([...new Set(answers)]);
+
+
+ // Agar xato savollar kam bo'lsa,
+ // hech bo'lmaganda mavjud variantlar chiqadi.
+
+
+ content.innerHTML=`
+
+   <div class="question-card">
+
+     <div class="test-name">
+       Test ${item.test || "-"}
+       · Savol ${activeIndex+1}/${activeItems.length}
+     </div>
+
+     <div class="mastery">
+       O'zlashtirish:
+       ${item.correctCount || 0}/3
+     </div>
+
+     <div class="question">
+       ${item.question}
+     </div>
+
+     <div id="answers"></div>
+
+     <button
+       id="nextButton"
+       class="next hidden">
+       Keyingi →
+     </button>
+
+   </div>
+
+ `;
+
+
+ const answerBox=
+   document.getElementById("answers");
+
+
+ answers.forEach(answer=>{
+
+   const button=
+     document.createElement("button");
+
+   button.className="option";
+   button.textContent=answer;
+
+
+   button.onclick=()=>{
+
+     checkAnswer(
+       button,
+       answer,
+       item
+     );
+
+   };
+
+
+   answerBox.appendChild(button);
+
+ });
+
+}
+
+
+// =======================================
+// JAVOBNI TEKSHIRISH
+// =======================================
+
+function checkAnswer(button,answer,item){
+
+ const buttons=
+   document.querySelectorAll(".option");
+
+ buttons.forEach(b=>b.disabled=true);
+
+
+ let wrongs=getWrongs();
+
+ const index=wrongs.findIndex(
+   x=>x.id===item.id
+ );
+
+
+ if(answer===item.answer){
+
+   button.classList.add("correct");
+
+
+   if(index!==-1){
+
+     wrongs[index].correctCount =
+       (wrongs[index].correctCount || 0)+1;
+
+
+     // =================================
+     // 3 MARTA TO'G'RI = O'CHIRILADI
+     // =================================
+
+     if(wrongs[index].correctCount>=3){
+
+       wrongs.splice(index,1);
+
+       saveWrongs(wrongs);
+
+
+       activeItems=
+         activeItems.filter(
+           x=>x.id!==item.id
+         );
+
+
+       setTimeout(()=>{
+
+         if(activeIndex>=activeItems.length){
+           activeIndex=0;
+         }
+
+         showWrongQuestion();
+
+       },700);
+
+
+       return;
+
+     }
+
+
+     // 1/3 yoki 2/3
+     item.correctCount=
+       wrongs[index].correctCount;
+
+     saveWrongs(wrongs);
+
+   }
+
+ }
+
+
+ else{
+
+   button.classList.add("wrong");
+
+
+   // To'g'ri javobni yashil qiladi
+   buttons.forEach(b=>{
+
+     if(b.textContent===item.answer){
+       b.classList.add("correct");
+     }
+
+   });
+
+
+   // Xato qilsa yana 0/3
+   if(index!==-1){
+
+     wrongs[index].correctCount=0;
+
+     item.correctCount=0;
+
+     saveWrongs(wrongs);
+
+   }
+
+ }
+
+
+ const next=
+   document.getElementById("nextButton");
+
+ next.classList.remove("hidden");
+
+
+ next.onclick=()=>{
+
+   activeIndex++;
+
+   showWrongQuestion();
+
+ };
+
+}
+
+
+// =======================================
+// DASHBOARDGA QAYTISH
+// =======================================
+
+function backDashboard(){
+
+ document
+   .getElementById("quiz")
+   .style.display="none";
+
+ document
+   .getElementById("dashboard")
+   .style.display="block";
+
+ renderDashboard();
+
+ window.scrollTo(0,0);
+
+}
+
+
+// =======================================
+// START
+// =======================================
+
+renderDashboard();
+
+</script>
 
 </body>
 </html>
