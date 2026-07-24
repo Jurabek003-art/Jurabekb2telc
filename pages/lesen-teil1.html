@@ -1,58 +1,305 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lesen Teil 1</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 20px;
-      background: #111827;
-      color: white;
-      font-family: Arial, sans-serif;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesen Teil 1</title>
 
-    .back {
-      color: white;
-      text-decoration: none;
-      font-size: 18px;
-    }
-
-    h1 {
-      text-align: center;
-    }
-
-    .card {
-      background: #1f2937;
-      padding: 20px;
-      margin-top: 25px;
-      border-radius: 18px;
-      text-align: center;
-    }
-
-    button {
-      width: 100%;
-      padding: 16px;
-      border: 0;
-      border-radius: 12px;
-      font-size: 18px;
-      margin-top: 15px;
-    }
-  </style>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  padding:20px;
+  background:#10141c;
+  color:#f2f2f2;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+.back{
+  color:#ddd;
+  text-decoration:none;
+  font-size:16px;
+}
+h1{text-align:center;margin:25px 0}
+.test{
+  background:#1b212c;
+  border:1px solid #303846;
+  padding:18px;
+  margin:12px 0;
+  border-radius:16px;
+  cursor:pointer;
+}
+.test h3{margin:0 0 5px}
+.test p{margin:0;color:#9299a6}
+.question{
+  background:#1b212c;
+  border:1px solid #303846;
+  padding:20px;
+  border-radius:18px;
+  margin-top:20px;
+}
+.option{
+  width:100%;
+  text-align:left;
+  padding:15px;
+  margin:8px 0;
+  border:1px solid #384251;
+  border-radius:12px;
+  background:#242b37;
+  color:white;
+  font-size:15px;
+}
+.option:disabled{opacity:.8}
+.correct{background:#24472f!important}
+.wrong{background:#542b2b!important}
+.next{
+  width:100%;
+  padding:15px;
+  margin-top:15px;
+  border:0;
+  border-radius:12px;
+  background:#d7bd78;
+  color:#111;
+  font-weight:bold;
+  font-size:16px;
+}
+.result{
+  text-align:center;
+  background:#1b212c;
+  padding:30px;
+  border-radius:18px;
+  margin-top:25px;
+}
+.hidden{display:none}
+</style>
 </head>
 
 <body>
 
-  <a class="back" href="lesen.html">← Orqaga</a>
+<a class="back" href="lesen.html">← Orqaga</a>
 
-  <h1>📗 Lesen Teil 1</h1>
+<h1>📖 Lesen — Teil 1</h1>
 
-  <div class="card">
-    <h2>42 ta savol</h2>
-    <p>Lesen Teil 1 testlari</p>
-    <button>Testni boshlash</button>
-  </div>
+<div id="menu"></div>
+<div id="quiz" class="hidden"></div>
+
+<script>
+
+const tests = {
+
+"1.1":[
+["Möchten Sie Kraft","Frische Luft"],
+["Wenn es regnet","Vom Regen zum Mineralwasser"],
+["Nach den Unwettern","Sommer bedeutet"],
+["Wozu noch Kästen","Sprudel hausgemacht"],
+["Wasser ist zum Waschen","Viel Wasser trinken"]
+],
+
+"1.2":[
+["Martina Lux","Förderwochenende"],
+["Jugen forscht","Spannende"],
+["Die Industriellenvereinigung","Mehr bemühungen"],
+["im Kulturzentrum","Berufswahl"],
+["Wie eine repräsentative","Studienabsolventen"]
+],
+
+"1.3":[
+["Spardosen","Sammelgefäße"],
+["Wer beim","Lehrreicher"],
+["Versteh","Finanz"],
+["Eine neue","Vertrauen"],
+["Über Geld","Wie Kinder"]
+],
+
+"1.4":[
+["Immer","Neue"],
+["Virologen","Kontroverse"],
+["Ein neuer","Hoffnung"],
+["Breitet","Geschlechtsspezifische"],
+["Da sich","Hinweise"]
+],
+
+"1.5":[
+["Die Shengsi","Grüne"],
+["Der Reiseveranstalter","Die beliebesten"],
+["Das ostfriesische","Tierparadies"],
+["Die südamerikanischen","Fernreisen"],
+["Dass Elefanten","Umstrittener"]
+],
+
+"1.6":[
+["Kaffee","Genussmittel"],
+["Ihr Gehirn","Pflanzen"],
+["Nicht","Koffein"],
+["Es ist ein schwerer Gang","Insektensterben"],
+["Viel Insekten","Methoden"]
+],
+
+"1.7":[
+["Für Raucher","Mit der Zigarette"],
+["Urlaub","Höhenluft"],
+["Schlechte Haut","Mädchen"],
+["Sport im Hochgebirge","Freizeitsport"],
+["Sportvereine","Junge Sportler"]
+],
+
+"1.8":[
+["In Russland","Eine Pionierin"],
+["Dass Frauen","Entwicklung"],
+["Das Wahlverhalten","Geschlechtsspezifische"],
+["In den vergangenen","Studentinnen"],
+["Suffragetten","Vorkämpferinnen"]
+],
+
+"1.9":[
+["Über zehntausend","Gesundes"],
+["Am Mittelmeer","Pflanzliche"],
+["Eine der ältesten","Ein schlankes"],
+["Schlank","Tolle"],
+["Als typisch","Von der wildpflanze"]
+],
+
+"1.10":[
+["Die anhaltenden","Landwirte"],
+["Für immer","Rückblick"],
+["Der Klimawandel","Kleine"],
+["Forscher","Neue Studie"],
+["Heute","Um die Zukunft"]
+]
+
+};
+
+let currentTest;
+let questions=[];
+let current=0;
+let score=0;
+
+const menu=document.getElementById("menu");
+const quiz=document.getElementById("quiz");
+
+Object.keys(tests).forEach(name=>{
+  const div=document.createElement("div");
+  div.className="test";
+  div.innerHTML=
+  `<h3>Test ${name}</h3>
+   <p>5 ta savol</p>`;
+  div.onclick=()=>startTest(name);
+  menu.appendChild(div);
+});
+
+function shuffle(array){
+  return [...array].sort(()=>Math.random()-0.5);
+}
+
+function startTest(name){
+  currentTest=name;
+  questions=shuffle(tests[name]);
+  current=0;
+  score=0;
+
+  menu.classList.add("hidden");
+  quiz.classList.remove("hidden");
+
+  showQuestion();
+}
+
+function showQuestion(){
+
+  if(current>=questions.length){
+    showResult();
+    return;
+  }
+
+  const [question,answer]=questions[current];
+
+  const answers=shuffle(
+    tests[currentTest].map(item=>item[1])
+  );
+
+  quiz.innerHTML=`
+    <div class="question">
+      <p>Savol ${current+1}/5</p>
+      <h2>${question}</h2>
+      <div id="options"></div>
+      <button id="next" class="next hidden">
+        Keyingi →
+      </button>
+    </div>
+  `;
+
+  const options=document.getElementById("options");
+
+  answers.forEach(option=>{
+
+    const button=document.createElement("button");
+    button.className="option";
+    button.textContent=option;
+
+    button.onclick=()=>{
+
+      document.querySelectorAll(".option")
+      .forEach(b=>b.disabled=true);
+
+      if(option===answer){
+        button.classList.add("correct");
+        score++;
+      }else{
+        button.classList.add("wrong");
+
+        document.querySelectorAll(".option")
+        .forEach(b=>{
+          if(b.textContent===answer)
+            b.classList.add("correct");
+        });
+      }
+
+      document.getElementById("next")
+      .classList.remove("hidden");
+    };
+
+    options.appendChild(button);
+  });
+
+  document.getElementById("next").onclick=()=>{
+    current++;
+    showQuestion();
+  };
+}
+
+function showResult(){
+
+  const percent=Math.round(
+    (score/questions.length)*100
+  );
+
+  quiz.innerHTML=`
+    <div class="result">
+      <h1>🏆 Natija</h1>
+
+      <h2>${score}/5</h2>
+
+      <h1>${percent}%</h1>
+
+      <p>Test ${currentTest}</p>
+
+      <button class="next"
+        onclick="startTest('${currentTest}')">
+        🔄 Qayta ishlash
+      </button>
+
+      <button class="next"
+        onclick="backMenu()">
+        ← Testlar
+      </button>
+    </div>
+  `;
+}
+
+function backMenu(){
+  quiz.classList.add("hidden");
+  menu.classList.remove("hidden");
+}
+
+</script>
 
 </body>
 </html>
