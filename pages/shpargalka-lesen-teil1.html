@@ -7,40 +7,104 @@
 
 <style>
 *{box-sizing:border-box}
+
 body{
- margin:0;padding:18px;background:#10141c;color:#f2f2f2;
- font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+ margin:0;
+ padding:18px;
+ background:#10141c;
+ color:#f2f2f2;
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
-.back{color:#ddd;text-decoration:none}
-h1{text-align:center;margin:25px 0}
+
+.back{
+ color:#ddd;
+ text-decoration:none;
+}
+
+h1{
+ text-align:center;
+ margin:25px 0;
+}
+
 .test{
- background:#1b212c;border:1px solid #303846;border-radius:16px;
- padding:17px;margin:10px 0;cursor:pointer
+ background:#1b212c;
+ border:1px solid #303846;
+ border-radius:16px;
+ padding:17px;
+ margin:10px 0;
+ cursor:pointer;
 }
-.test h3{margin:0 0 5px}
-.test p{margin:0;color:#9299a6;font-size:13px}
+
+.test h3{
+ margin:0 0 5px;
+}
+
+.test p{
+ margin:0;
+ color:#9299a6;
+ font-size:13px;
+}
+
 .question{
- background:#1b212c;border:1px solid #303846;
- padding:20px;border-radius:18px;margin-top:20px
+ background:#1b212c;
+ border:1px solid #303846;
+ padding:20px;
+ border-radius:18px;
+ margin-top:20px;
 }
+
 .option{
- width:100%;text-align:left;padding:15px;margin:7px 0;
- border:1px solid #384251;border-radius:12px;
- background:#242b37;color:white;font-size:15px
+ width:100%;
+ text-align:left;
+ padding:15px;
+ margin:7px 0;
+ border:1px solid #384251;
+ border-radius:12px;
+ background:#242b37;
+ color:white;
+ font-size:15px;
 }
-.correct{background:#245038!important}
-.wrong{background:#5a2929!important}
+
+.option:disabled{
+ opacity:.9;
+}
+
+.correct{
+ background:#245038!important;
+}
+
+.wrong{
+ background:#5a2929!important;
+}
+
 .next{
- width:100%;padding:15px;margin-top:15px;border:0;
- border-radius:12px;background:#d7bd78;color:#111;
- font-size:16px;font-weight:bold
+ width:100%;
+ padding:15px;
+ margin-top:15px;
+ border:0;
+ border-radius:12px;
+ background:#d7bd78;
+ color:#111;
+ font-size:16px;
+ font-weight:bold;
 }
-.hidden{display:none}
+
+.hidden{
+ display:none;
+}
+
 .result{
- text-align:center;background:#1b212c;padding:25px;
- border-radius:18px;margin-top:25px
+ text-align:center;
+ background:#1b212c;
+ padding:25px;
+ border-radius:18px;
+ margin-top:25px;
 }
-.progress{color:#9299a6;font-size:14px}
+
+.progress{
+ color:#9299a6;
+ font-size:14px;
+}
 </style>
 </head>
 
@@ -318,7 +382,7 @@ const tests={
 ["Das größte","trinkwasser"],
 ["Beispiel Nummer","rasante"]
 ],
-
+ 
 "1.31":[
 ["Fernsehen","Schlechte"],
 ["Pharmakologen","Neue Richtlinie"],
@@ -421,6 +485,95 @@ const tests={
 
 };
 
+
+// ==========================================
+// O'ZLASHTIRILMAGANLARGA SAQLASH
+// ==========================================
+
+function saveWrong(question, answer, testName){
+
+  let wrongs = JSON.parse(
+    localStorage.getItem("wrongQuestions") || "[]"
+  );
+
+  const id =
+    "lesen-teil1-" +
+    testName + "-" +
+    question;
+
+  let found = wrongs.find(item => item.id === id);
+
+  if(!found){
+
+    wrongs.push({
+      id:id,
+      section:"lesen",
+      sectionName:"Lesen",
+      teil:"1",
+      test:testName,
+      question:question,
+      answer:answer,
+      correctCount:0
+    });
+
+  }else{
+
+    // Shpargalkada yana xato qilinsa 0/3 ga qaytadi
+    found.correctCount = 0;
+
+  }
+
+  localStorage.setItem(
+    "wrongQuestions",
+    JSON.stringify(wrongs)
+  );
+}
+
+
+// ==========================================
+// TEST NATIJASINI SAQLASH
+// ==========================================
+
+function saveTestResult(testName, score, total){
+
+  let results = JSON.parse(
+    localStorage.getItem("testResults") || "{}"
+  );
+
+  const key = "lesen-teil1-" + testName;
+
+  const percent =
+    Math.round((score / total) * 100);
+
+  // Eng yaxshi natijani saqlaydi
+  if(
+    !results[key] ||
+    percent > results[key].percent
+  ){
+
+    results[key] = {
+      section:"lesen",
+      sectionName:"Lesen",
+      teil:"1",
+      test:testName,
+      score:score,
+      total:total,
+      percent:percent
+    };
+
+  }
+
+  localStorage.setItem(
+    "testResults",
+    JSON.stringify(results)
+  );
+}
+
+
+// ==========================================
+// TEST TIZIMI
+// ==========================================
+
 let currentTest="";
 let questions=[];
 let current=0;
@@ -429,149 +582,273 @@ let score=0;
 const menu=document.getElementById("menu");
 const quiz=document.getElementById("quiz");
 
+
 function shuffle(arr){
- const a=[...arr];
- for(let i=a.length-1;i>0;i--){
-   const j=Math.floor(Math.random()*(i+1));
-   [a[i],a[j]]=[a[j],a[i]];
- }
- return a;
+
+  const a=[...arr];
+
+  for(let i=a.length-1;i>0;i--){
+
+    const j=
+      Math.floor(Math.random()*(i+1));
+
+    [a[i],a[j]]=[a[j],a[i]];
+
+  }
+
+  return a;
 }
+
+
+// ==========================================
+// TESTLAR RO'YXATI
+// ==========================================
 
 Object.keys(tests).forEach(name=>{
- const div=document.createElement("div");
- div.className="test";
- div.innerHTML=`
-   <h3>Test ${name}</h3>
-   <p>${tests[name].length} ta savol</p>
- `;
- div.onclick=()=>startTest(name);
- menu.appendChild(div);
+
+  const div=document.createElement("div");
+
+  div.className="test";
+
+  div.innerHTML=`
+    <h3>Test ${name}</h3>
+    <p>${tests[name].length} ta savol</p>
+  `;
+
+  div.onclick=()=>startTest(name);
+
+  menu.appendChild(div);
+
 });
 
+
+// ==========================================
+// TESTNI BOSHLASH
+// ==========================================
+
 function startTest(name){
- currentTest=name;
- questions=shuffle(tests[name]);
- current=0;
- score=0;
 
- menu.classList.add("hidden");
- quiz.classList.remove("hidden");
+  currentTest=name;
 
- showQuestion();
+  questions=shuffle(tests[name]);
+
+  current=0;
+  score=0;
+
+  menu.classList.add("hidden");
+  quiz.classList.remove("hidden");
+
+  showQuestion();
+
 }
+
+
+// ==========================================
+// SAVOLNI KO'RSATISH
+// ==========================================
 
 function showQuestion(){
 
- if(current>=questions.length){
-   showResult();
-   return;
- }
+  if(current>=questions.length){
 
- const [question,correctAnswer]=questions[current];
+    showResult();
+    return;
 
- let answers=[...new Set(
-   tests[currentTest].map(item=>item[1])
- )];
+  }
 
- answers=shuffle(answers);
+  const [question,correctAnswer]
+    =questions[current];
 
- quiz.innerHTML=`
- <div class="question">
 
-   <div class="progress">
-     Test ${currentTest} · Savol ${current+1}/${questions.length}
-   </div>
+  // Shu test ichidagi barcha javoblar
+  let answers=[
+    ...new Set(
+      tests[currentTest]
+        .map(item=>item[1])
+    )
+  ];
 
-   <h2>${question}</h2>
+  answers=shuffle(answers);
 
-   <div id="options"></div>
 
-   <button id="next" class="next hidden">
-     Keyingi →
-   </button>
+  quiz.innerHTML=`
 
- </div>
- `;
+    <div class="question">
 
- const options=document.getElementById("options");
+      <div class="progress">
+        Test ${currentTest}
+        · Savol ${current+1}/${questions.length}
+      </div>
 
- answers.forEach(answer=>{
+      <h2>${question}</h2>
 
-   const button=document.createElement("button");
-   button.className="option";
-   button.textContent=answer;
+      <div id="options"></div>
 
-   button.onclick=()=>{
+      <button
+        id="next"
+        class="next hidden">
+        Keyingi →
+      </button>
 
-     const all=document.querySelectorAll(".option");
+    </div>
 
-     all.forEach(b=>b.disabled=true);
+  `;
 
-     if(answer===correctAnswer){
 
-       button.classList.add("correct");
-       score++;
+  const options=
+    document.getElementById("options");
 
-     }else{
 
-       button.classList.add("wrong");
+  answers.forEach(answer=>{
 
-       all.forEach(b=>{
-         if(b.textContent===correctAnswer){
-           b.classList.add("correct");
-         }
-       });
+    const button=
+      document.createElement("button");
 
-     }
+    button.className="option";
+    button.textContent=answer;
 
-     document.getElementById("next")
-       .classList.remove("hidden");
-   };
 
-   options.appendChild(button);
- });
+    button.onclick=()=>{
 
- document.getElementById("next").onclick=()=>{
-   current++;
-   showQuestion();
- };
+      const all=
+        document.querySelectorAll(".option");
+
+      all.forEach(b=>b.disabled=true);
+
+
+      // TO'G'RI JAVOB
+      if(answer===correctAnswer){
+
+        button.classList.add("correct");
+
+        score++;
+
+      }
+
+
+      // XATO JAVOB
+      else{
+
+        button.classList.add("wrong");
+
+
+        // O'zlashtirilmaganlarga saqlaydi
+        saveWrong(
+          question,
+          correctAnswer,
+          currentTest
+        );
+
+
+        // To'g'ri javobni yashil ko'rsatadi
+        all.forEach(b=>{
+
+          if(b.textContent===correctAnswer){
+
+            b.classList.add("correct");
+
+          }
+
+        });
+
+      }
+
+
+      document
+        .getElementById("next")
+        .classList.remove("hidden");
+
+    };
+
+
+    options.appendChild(button);
+
+  });
+
+
+  document
+    .getElementById("next")
+    .onclick=()=>{
+
+      current++;
+
+      showQuestion();
+
+    };
+
 }
+
+
+// ==========================================
+// NATIJA
+// ==========================================
 
 function showResult(){
 
- const total=questions.length;
- const percent=Math.round((score/total)*100);
+  const total=questions.length;
 
- quiz.innerHTML=`
- <div class="result">
+  const percent=
+    Math.round((score/total)*100);
 
-   <h1>🏆 Natija</h1>
 
-   <h2>${score}/${total}</h2>
+  // Natijani saqlaydi
+  saveTestResult(
+    currentTest,
+    score,
+    total
+  );
 
-   <h1>${percent}%</h1>
 
-   <p>Lesen Teil 1 · Test ${currentTest}</p>
+  quiz.innerHTML=`
 
-   <button class="next"
-     onclick="startTest('${currentTest}')">
-     🔄 Qayta ishlash
-   </button>
+    <div class="result">
 
-   <button class="next"
-     onclick="backMenu()">
-     ← Barcha testlar
-   </button>
+      <h1>🏆 Natija</h1>
 
- </div>
- `;
+      <h2>${score}/${total}</h2>
+
+      <h1>${percent}%</h1>
+
+      <p>
+        Lesen Teil 1
+        · Test ${currentTest}
+      </p>
+
+      <button
+        class="next"
+        onclick="startTest('${currentTest}')">
+
+        🔄 Qayta ishlash
+
+      </button>
+
+      <button
+        class="next"
+        onclick="backMenu()">
+
+        ← Barcha testlar
+
+      </button>
+
+    </div>
+
+  `;
+
 }
 
+
+// ==========================================
+// TESTLAR RO'YXATIGA QAYTISH
+// ==========================================
+
 function backMenu(){
- quiz.classList.add("hidden");
- menu.classList.remove("hidden");
- window.scrollTo(0,0);
+
+  quiz.classList.add("hidden");
+
+  menu.classList.remove("hidden");
+
+  window.scrollTo(0,0);
+
 }
 
 </script>
