@@ -1,48 +1,580 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shpargalka Lesen Teil 1</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shpargalka - Lesen Teil 1</title>
 
-  <style>
-    body {
-      margin: 0;
-      padding: 20px;
-      background: #111827;
-      color: white;
-      font-family: Arial, sans-serif;
-    }
-
-    .back {
-      color: white;
-      text-decoration: none;
-      font-size: 18px;
-    }
-
-    h1 {
-      text-align: center;
-    }
-
-    .card {
-      background: #1f2937;
-      padding: 20px;
-      margin-top: 20px;
-      border-radius: 18px;
-    }
-  </style>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;padding:18px;background:#10141c;color:#f2f2f2;
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+}
+.back{color:#ddd;text-decoration:none}
+h1{text-align:center;margin:25px 0}
+.test{
+ background:#1b212c;border:1px solid #303846;border-radius:16px;
+ padding:17px;margin:10px 0;cursor:pointer
+}
+.test h3{margin:0 0 5px}
+.test p{margin:0;color:#9299a6;font-size:13px}
+.question{
+ background:#1b212c;border:1px solid #303846;
+ padding:20px;border-radius:18px;margin-top:20px
+}
+.option{
+ width:100%;text-align:left;padding:15px;margin:7px 0;
+ border:1px solid #384251;border-radius:12px;
+ background:#242b37;color:white;font-size:15px
+}
+.correct{background:#245038!important}
+.wrong{background:#5a2929!important}
+.next{
+ width:100%;padding:15px;margin-top:15px;border:0;
+ border-radius:12px;background:#d7bd78;color:#111;
+ font-size:16px;font-weight:bold
+}
+.hidden{display:none}
+.result{
+ text-align:center;background:#1b212c;padding:25px;
+ border-radius:18px;margin-top:25px
+}
+.progress{color:#9299a6;font-size:14px}
+</style>
 </head>
 
 <body>
 
-  <a class="back" href="shpargalka-lesen.html">← Orqaga</a>
+<a class="back" href="shpargalka-lesen.html">← Lesen</a>
 
-  <h1>📗 Lesen Teil 1</h1>
+<h1>📖 Shpargalka — Lesen Teil 1</h1>
 
-  <div class="card">
-    <h2>42 ta savol</h2>
-    <p>Shpargalka materiallari shu yerga joylashtiriladi.</p>
-  </div>
+<div id="menu"></div>
+<div id="quiz" class="hidden"></div>
+
+<script>
+
+const tests={
+
+"1.1":[
+["Möchten Sie Kraft","Frische Luft"],
+["Wenn es regnet","Vom Regen zum Mineralwasser"],
+["Nach den Unwettern","Sommer bedeutet"],
+["Wozu noch Kästen","Sprudel hausgemacht"],
+["Wasser ist zum Waschen","Viel wasser trinken"]
+],
+
+"1.2":[
+["Martina Lux","Förderwochenende"],
+["Jugen forscht","Spannende"],
+["Die Industriellenvereinigung","Mehr bemühungen"],
+["im Kulturzentrum","Berufswahl"],
+["Wie eine repräsentative","Studienabsolventen"]
+],
+
+"1.3":[
+["Spardosen","Sammelgefäße"],
+["Wer beim","Lehrreicher"],
+["Versteh","Finanz"],
+["Eine neue","Vertrauen"],
+["Über Geld","Wie Kinder"]
+],
+
+"1.4":[
+["Immer","Neue"],
+["Virologen","Kontroverse"],
+["Ein neuer","Hoffnung"],
+["Breitet","Geschlechtsspezifische"],
+["Da sich","Hinweise"]
+],
+
+"1.5":[
+["Die Shengsi","Grüne"],
+["Der Reiseveranstalter","Die beliebesten"],
+["Das ostfriesische","Tierparadies"],
+["Die südamerikanischen","Fernreisen"],
+["Dass Elefanten","Umstrittener"]
+],
+
+"1.6":[
+["Kaffee","Genussmittel"],
+["Ihr Gehirn","Pflanzen"],
+["Nicht","Koffein"],
+["Es ist ein schwerer Gang","Insektensterben"],
+["Viel Insekten","Methoden"]
+],
+
+"1.7":[
+["Für Raucher","Mit der Zigarette"],
+["Urlaub","Höhenluft"],
+["Schlechte Haut","Mädchen"],
+["Sport im Hochgebirge","Freizeitsport"],
+["Sportvereine","Junge Sportler"]
+],
+
+"1.8":[
+["In Russland","Eine Pionierin"],
+["Dass Frauen","Entwicklung"],
+["Das Wahlverhalten","Geschlechtsspezifische"],
+["In den vergangenen","Studentinnen"],
+["Suffragetten","Vorkämpferinnen"]
+],
+
+"1.9":[
+["Über zehntausend","Gesundes"],
+["Am Mittelmeer","Pflanzliche"],
+["Eine der ältesten","Ein schlankes"],
+["Schlank","Tolle"],
+["Als typisch","Von der wildpflanze"]
+],
+
+"1.10":[
+["Die anhaltenden","Landwirte"],
+["Für immer","Rückblick"],
+["Der Klimawandel","Kleine"],
+["Forscher","Neue Studie"],
+["Heute","Um die Zukunft"]
+],
+
+"1.10a":[
+["Heute tägt","Um die Zukunft"],
+["Für immer","Rückblick"],
+["Der Klimawandel","Kliene"],
+["Forscher","Neue Studie"],
+["Die anhaltenden","Bauern"]
+],
+
+"1.11":[
+["Der Begriff","Höher"],
+["Musik","Verändertes"],
+["In Firmen","Hilfen"],
+["Tanja","Freie"],
+["Montags","Keine"]
+],
+
+"1.11a":[
+["Musik","Wandel"]
+],
+
+"1.12":[
+["Wie wollen","Schönheitsoperationen"],
+["Der Riechsinn","Durch"],
+["Mit Drogen","Mit vierbeinigen"],
+["Beim Menschen","Tierische"],
+["Niesen","Selbstreinigung"]
+],
+
+"1.13":[
+["Nach der englischen","Traditionen"],
+["Raban","Neues Buch"],
+["Auf den Straßen","Vorsicht"],
+["In Deutschland","Das richtige"],
+["Ein Großteil","Weniger"]
+],
+
+"1.14":[
+["Wir bieten","Ein tierischer"],
+["Die schwimm","Auf dem Weg"],
+["In unserer","Fit"],
+["Das trampolin","Schlank"],
+["Sporttauchen","Sport"]
+],
+
+"1.15":[
+["Die Krüger","Zeitprobleme"],
+["Der Wunsch","Vorsicht"],
+["Hat","Liebe"],
+["Knapp","Wer sucht"],
+["Nach dem Abitur","Wenn die Kinder"]
+],
+
+"1.15a":[
+["Der Wunsch","Termindruck"],
+["Wie entsteht","Liebe"],
+["Knapp","Aktive"]
+],
+
+"1.16":[
+["Die meisten Menschen","Informationen"],
+["Die WOH","Medienkonsum"],
+["Schülerinnen","Mit Nachrichten"],
+["Mit dem Trampolin","Fachleute"],
+["Die Klage","Traditionelle"]
+],
+
+"1.17":[
+["An der Ostküste","Ein Leistungssport"],
+["Warum","Sportbegeisterte"],
+["Schweizer","Fitness"],
+["mehr Bewegung","Sport"],
+["Viel frischgebackene","Geprüfte"]
+],
+
+"1.18":[
+["Das Lesemagazin","Österreichs"],
+["Sie","Schulung"],
+["Der Wiener","wissenswertes"],
+["Wer bloggt","Schreiben"],
+["Bis Herbst","Erneuerungskur"]
+],
+
+"1.19":[
+["Heute machen","Was tun"],
+["Jahrelang","Stadtbewohner entdecken"],
+["Satellitenbilder","Die Auswirkungen"],
+["vor zehn Jahren","Der Weld"],
+["Wer verbringt","Stadtbewohner leben"]
+],
+
+"1.20":[
+["Die erste Kosener","Naturgetreue"],
+["Die Modelleisenbahn","Kleine"],
+["Gedruckten","Dinge"],
+["Immer neue Spielekonsolen","Alte spiele"],
+["Jahr für Jahr","Überfluss"]
+],
+
+"1.21":[
+["Berlin","Die Löwen"],
+["In Südafrika","Mehr"],
+["In den USA","Löwen als Zeichen"],
+["Die reichen","Löwen als Haustier"],
+["Die Tierschutzorganisation","Planung"]
+],
+
+"1.22":[
+["Das erste Kaffehaus","Ohne Kaffe"],
+["Eppingen","Attraktive"],
+["Das Kloster","Klosterliche"],
+["Auf einer Anhöhe","Altes"],
+["Vermutlich","Entdeckung"]
+],
+
+"1.23":[
+["Der Buchtitel","Das Ende"],
+["Fotos","Gelungene"],
+["Bilder","Bilder"],
+["Die Abkürzung","Erde"],
+["Er gehörte","Die bemerkenswerte"]
+],
+
+"1.23a":[
+["Fotografie","Fotografie"]
+],
+
+"1.24":[
+["Die Zahlen","Wenn"],
+["Immer","Von"],
+["Energiesparlampen","Jugend engagiert"],
+["13.5 Meter","Jugend forscht"],
+["Mobbing","Psychoterror"]
+],
+
+"1.25":[
+["Feng Shui","wohnen"],
+["Farbon","Farben"],
+["Ein allgemeingültiger","pflanzen"],
+["Frische","krauter als zimmerpflanzen"],
+["Bei der Wohnraumgestaltung","Zimmerpflanzen sorgen"]
+],
+
+"1.26":[
+["Aussteigen","Steigende"],
+["Viele Autofahrer","Die wichtigsten"],
+["Hast du schon","Einmal die Welt"],
+["Der Schweizer","Einmal um die Welt"],
+["Die Bundesregierung","Fliegen"]
+],
+
+"1.27":[
+["Berlin","Gewerkschaft"],
+["Wer","GEW"],
+["Die Hilferufer","Experten"],
+["Bildungspolitiker","Bildungsforscher"],
+["Mädchen","An deutschen"]
+],
+
+"1.28":[
+["Sie sind","Neue Besitzer"],
+["Man gönnt","Volle"],
+["Geklickt","Rücksendungen verringern"],
+["Keine Lust","Gemeinsam"],
+["Viele Menschen","wer"]
+],
+
+"1.29":[
+["Vielen Menschen","modern"],
+["Wenn Kinder","kinder"],
+["Wer unter","handy im ausland"],
+["Manche Momente","profi"],
+["Es gibt in Deutschland","mobiler Fernsehgenuss."]
+],
+
+"1.30":[
+["Willkommen","Extreme"],
+["Denn Bioniker","auf der suche"],
+["Der Sandfisch","ein fisch"],
+["Das größte","trinkwasser"],
+["Beispiel Nummer","rasante"]
+],
+
+"1.31":[
+["Fernsehen","Schlechte"],
+["Pharmakologen","Neue Richtlinie"],
+["Alternative","Alternative"],
+["Die eine liebt","Naturkosmetik"],
+["Kinder essen","Kinder und Jugendliche"]
+],
+
+"1.32":[
+["Entdecken","Bäder"],
+["Pferde","Am Strand"],
+["Ein neuer Urlaubstrend","Nach harter"],
+["Von 9 bis 15","Jugendliche"],
+["Die Windjacken","Wegen"]
+],
+
+"1.32a":[
+["Von der Polizeiwache","Von der Polizeiwache"]
+],
+
+"1.33":[
+["Ein hochwertiger","Schlechtere"],
+["Übergewicht","Schnell"],
+["Wenn Sie","Ernährungstipps"],
+["Das Arbeitsamt","Was"],
+["Junge Frauen","Initiative"]
+],
+
+"1.34":[
+["Kytill, Friederike, Lothar","Eine"],
+["Der Jugendwettbewerb","Junge"],
+["Am gestrigen","Heftiger"],
+["Soll ich","Gut"],
+["Zehn Jahre","Vorhersage"]
+],
+
+"1.35":[
+["Äuf meinen elektronischen","Elektronischer"],
+["Kundenberater","Neues Hotelangebot"],
+["Ein Referat","Pädagogen"],
+["Wer könnte","Jeder kann"],
+["Zu Beginn","Sprachen"]
+],
+
+"1.36":[
+["Wer sportlich","Sport"],
+["Köstliches","Kochen"],
+["Behutsame","Beispiel"],
+["Allein","Unser Gesundheits"],
+["Das die Stimme","Andere Stimme"]
+],
+
+"1.37":[
+["Wie wäre","Urlaub"],
+["Darauf","Mein rechter"],
+["Langes","Was rastet"],
+["Es gibt","Tausch"],
+["Warum","Daumen"]
+],
+
+"1.38":[
+["Bonbons","Süßwaren"],
+["Am Frankfurter","Naschen"],
+["Wo heißes","Wasser"],
+["Nicht nur in Hollywoodfilmen","Irrtum"],
+["Wellness","In der Stadt"]
+],
+
+"1.39":[
+["Im Winter","Tiere"],
+["Laut","Richtiges"],
+["Ein regelmäßiger","Klug"],
+["In den letzten Jahren","Bewegung"],
+["Professor Dr.Thoma","Was"]
+],
+
+"1.40":[
+["Die zunehmende","Störungen"],
+["Das Klima","Evolution"],
+["Fast dreizehn","Wetterbedingungen"],
+["Experten","Der Mensch"],
+["Wie eng","Anzahl"]
+],
+
+"1.41":[
+["Das Kunstwort","Mehr"],
+["Stundenlanges","Lernen ohne Anstrengung"],
+["Wer ein digitales","Leichter lernen mit selbst"],
+["Es ist eine Schwäche","Wie"],
+["Mit der richtigen","Brainfood"]
+],
+
+"1.42":[
+["Wer im Altes","Selbstbestimmtes"],
+["Als junger Mensch","Wohnbedürfnisse"],
+["Wohnen","Wohnentwürfe"],
+["Dass sich","Neuer"],
+["Wer hat insgeheim","Ansprüche"]
+]
+
+};
+
+let currentTest="";
+let questions=[];
+let current=0;
+let score=0;
+
+const menu=document.getElementById("menu");
+const quiz=document.getElementById("quiz");
+
+function shuffle(arr){
+ const a=[...arr];
+ for(let i=a.length-1;i>0;i--){
+   const j=Math.floor(Math.random()*(i+1));
+   [a[i],a[j]]=[a[j],a[i]];
+ }
+ return a;
+}
+
+Object.keys(tests).forEach(name=>{
+ const div=document.createElement("div");
+ div.className="test";
+ div.innerHTML=`
+   <h3>Test ${name}</h3>
+   <p>${tests[name].length} ta savol</p>
+ `;
+ div.onclick=()=>startTest(name);
+ menu.appendChild(div);
+});
+
+function startTest(name){
+ currentTest=name;
+ questions=shuffle(tests[name]);
+ current=0;
+ score=0;
+
+ menu.classList.add("hidden");
+ quiz.classList.remove("hidden");
+
+ showQuestion();
+}
+
+function showQuestion(){
+
+ if(current>=questions.length){
+   showResult();
+   return;
+ }
+
+ const [question,correctAnswer]=questions[current];
+
+ let answers=[...new Set(
+   tests[currentTest].map(item=>item[1])
+ )];
+
+ answers=shuffle(answers);
+
+ quiz.innerHTML=`
+ <div class="question">
+
+   <div class="progress">
+     Test ${currentTest} · Savol ${current+1}/${questions.length}
+   </div>
+
+   <h2>${question}</h2>
+
+   <div id="options"></div>
+
+   <button id="next" class="next hidden">
+     Keyingi →
+   </button>
+
+ </div>
+ `;
+
+ const options=document.getElementById("options");
+
+ answers.forEach(answer=>{
+
+   const button=document.createElement("button");
+   button.className="option";
+   button.textContent=answer;
+
+   button.onclick=()=>{
+
+     const all=document.querySelectorAll(".option");
+
+     all.forEach(b=>b.disabled=true);
+
+     if(answer===correctAnswer){
+
+       button.classList.add("correct");
+       score++;
+
+     }else{
+
+       button.classList.add("wrong");
+
+       all.forEach(b=>{
+         if(b.textContent===correctAnswer){
+           b.classList.add("correct");
+         }
+       });
+
+     }
+
+     document.getElementById("next")
+       .classList.remove("hidden");
+   };
+
+   options.appendChild(button);
+ });
+
+ document.getElementById("next").onclick=()=>{
+   current++;
+   showQuestion();
+ };
+}
+
+function showResult(){
+
+ const total=questions.length;
+ const percent=Math.round((score/total)*100);
+
+ quiz.innerHTML=`
+ <div class="result">
+
+   <h1>🏆 Natija</h1>
+
+   <h2>${score}/${total}</h2>
+
+   <h1>${percent}%</h1>
+
+   <p>Lesen Teil 1 · Test ${currentTest}</p>
+
+   <button class="next"
+     onclick="startTest('${currentTest}')">
+     🔄 Qayta ishlash
+   </button>
+
+   <button class="next"
+     onclick="backMenu()">
+     ← Barcha testlar
+   </button>
+
+ </div>
+ `;
+}
+
+function backMenu(){
+ quiz.classList.add("hidden");
+ menu.classList.remove("hidden");
+ window.scrollTo(0,0);
+}
+
+</script>
 
 </body>
 </html>
