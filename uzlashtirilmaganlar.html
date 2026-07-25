@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>O‘zlashtirilmaganlar — Jurabek TELC B2</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;min-height:100vh;color:#f7f8ff;
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+ background:
+ radial-gradient(circle at 12% 5%,rgba(48,158,151,.32),transparent 28%),
+ radial-gradient(circle at 90% 18%,rgba(151,93,255,.28),transparent 30%),
+ linear-gradient(160deg,#10182d,#18284a 55%,#17172c)
+}
+.app{max-width:720px;margin:auto;padding:20px 18px 115px}
+.top{display:flex;align-items:center;justify-content:space-between}
+.top a{color:white;text-decoration:none;font-size:28px}.top h1{font-size:21px}
+.hero,.card{
+ border:1px solid rgba(255,255,255,.12);border-radius:23px;
+ background:rgba(255,255,255,.075);padding:19px;margin-top:14px
+}
+.hero{background:linear-gradient(135deg,rgba(26,139,120,.22),rgba(119,76,203,.20))}
+.hero .ico{font-size:43px}.hero p,.muted{color:#b8c1d9;line-height:1.45}
+.count{font-size:34px;font-weight:900;margin-top:8px}
+.filters{display:flex;gap:8px;overflow:auto;margin:16px 0}
+.filter{white-space:nowrap;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.07);color:#c7d0e5;border-radius:14px;padding:10px 13px}
+.filter.active{background:#526fce;color:white}
+.item{display:flex;gap:12px;align-items:center}
+.item .ico{font-size:28px}.info{flex:1}.info b{display:block}.info small{color:#aeb9d0}
+.badge{font-size:12px;background:rgba(255,104,104,.16);color:#ffaaaa;padding:6px 9px;border-radius:20px}
+.empty{text-align:center;padding:35px 15px}.empty .ico{font-size:50px}
+button.retry{width:100%;margin-top:13px;border:0;border-radius:14px;padding:12px;background:linear-gradient(135deg,#3e77d8,#8055ca);color:white;font-weight:700}
+.bottom{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(720px,100%);display:grid;grid-template-columns:repeat(3,1fr);background:rgba(12,18,34,.94);border-top:1px solid rgba(255,255,255,.12);padding:9px 8px calc(9px + env(safe-area-inset-bottom))}
+.nav{color:#8f9ab5;text-decoration:none;text-align:center;font-size:12px;padding:7px}.nav i{font-style:normal;display:block;font-size:25px}.nav.active{color:white}
+</style>
+</head>
+<body>
+<main class="app">
+ <div class="top"><a href="../index.html">‹</a><h1>O‘zlashtirilmaganlar</h1><span></span></div>
+
+ <section class="hero">
+   <div class="ico">📌</div>
+   <h2>Qayta ishlash</h2>
+   <p>Testlarda xato qilingan savollar shu yerga yig‘iladi. To‘g‘ri ishlaganingizdan keyin ro‘yxatdan chiqarish mumkin.</p>
+   <div class="count"><span id="total">0</span> ta</div>
+ </section>
+
+ <div class="filters">
+   <button class="filter active" onclick="show('all',this)">Hammasi</button>
+   <button class="filter" onclick="show('Lesen',this)">📖 Lesen</button>
+   <button class="filter" onclick="show('Hören',this)">🎧 Hören</button>
+   <button class="filter" onclick="show('Sprachbausteine',this)">🧩 Sprach</button>
+ </div>
+
+ <div id="list"></div>
+</main>
+
+<nav class="bottom">
+ <a class="nav active" href="../index.html"><i>🏠</i>Bosh</a>
+ <a class="nav" href="reyting.html"><i>🏆</i>Reyting</a>
+ <a class="nav" href="profil.html"><i>👤</i>Profil</a>
+</nav>
+
+<script>
+let mistakes = JSON.parse(localStorage.getItem("jurabekB2Mistakes") || "[]");
+let current="all";
+
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+
+function render(){
+ const list=document.getElementById("list");
+ const data=current==="all"?mistakes:mistakes.filter(x=>x.section===current);
+ document.getElementById("total").textContent=mistakes.length;
+
+ if(!data.length){
+   list.innerHTML='<div class="card empty"><div class="ico">✅</div><h3>Hozircha bo‘sh</h3><div class="muted">Xato qilingan savollar avtomatik shu yerda paydo bo‘ladi.</div></div>';
+   return;
+ }
+
+ list.innerHTML=data.map((x,i)=>`
+ <div class="card">
+  <div class="item">
+   <div class="ico">${x.section==="Hören"?"🎧":x.section==="Sprachbausteine"?"🧩":"📖"}</div>
+   <div class="info">
+    <b>${esc(x.test || "Test")} • ${esc(x.question || "Savol")}</b>
+    <small>${esc(x.section || "Lesen")}</small>
+   </div>
+   <span class="badge">Qayta ishlash</span>
+  </div>
+  <button class="retry" onclick="removeMistake('${esc(x.id || i)}')">✓ O‘zlashtirildi</button>
+ </div>`).join("");
+}
+
+function show(type,el){
+ current=type;
+ document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));
+ el.classList.add("active");render();
+}
+
+function removeMistake(id){
+ mistakes=mistakes.filter((x,i)=>String(x.id||i)!==String(id));
+ localStorage.setItem("jurabekB2Mistakes",JSON.stringify(mistakes));
+ render();
+}
+render();
+</script>
+</body></html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mavzular — Jurabek TELC B2</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;min-height:100vh;color:#f7f8ff;
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+ background:
+ radial-gradient(circle at 10% 5%,rgba(74,144,226,.35),transparent 28%),
+ radial-gradient(circle at 90% 18%,rgba(151,93,255,.28),transparent 30%),
+ linear-gradient(160deg,#10182d,#18284a 55%,#17172c)
+}
+.app{max-width:720px;margin:auto;padding:20px 18px 115px}
+.top{display:flex;align-items:center;justify-content:space-between}
+.top a{color:#fff;text-decoration:none;font-size:28px}.top h1{font-size:21px}
+.hero{
+ margin-top:15px;padding:22px;border-radius:25px;
+ border:1px solid rgba(255,255,255,.12);
+ background:linear-gradient(135deg,rgba(56,116,218,.24),rgba(139,76,207,.20))
+}
+.hero .ico{font-size:45px}.hero p{color:#c1cae0;line-height:1.5}
+.card{
+ display:flex;align-items:center;gap:15px;color:white;text-decoration:none;
+ padding:19px;margin-top:13px;border-radius:21px;
+ border:1px solid rgba(255,255,255,.12);box-shadow:0 12px 28px rgba(0,0,0,.14)
+}
+.card:nth-of-type(1){background:linear-gradient(135deg,rgba(40,104,201,.72),rgba(52,73,163,.65))}
+.card:nth-of-type(2){background:linear-gradient(135deg,rgba(111,69,193,.72),rgba(148,76,171,.65))}
+.card:nth-of-type(3){background:linear-gradient(135deg,rgba(23,137,119,.72),rgba(40,116,151,.65))}
+.ico2{font-size:34px}.info{flex:1}.info b{display:block;font-size:19px}.info small{display:block;color:#e0e5f1;margin-top:4px}.arrow{font-size:25px}
+.bottom{
+ position:fixed;left:50%;bottom:0;transform:translateX(-50%);
+ width:min(720px,100%);display:grid;grid-template-columns:repeat(3,1fr);
+ background:rgba(12,18,34,.94);backdrop-filter:blur(18px);
+ border-top:1px solid rgba(255,255,255,.12);
+ padding:9px 8px calc(9px + env(safe-area-inset-bottom))
+}
+.nav{color:#8f9ab5;text-decoration:none;text-align:center;font-size:12px;padding:7px}
+.nav i{font-style:normal;display:block;font-size:25px}.nav.active{color:white}
+</style>
+</head>
+<body>
+<main class="app">
+ <div class="top"><a href="../index.html">‹</a><h1>Mavzular</h1><span></span></div>
+
+ <section class="hero">
+   <div class="ico">📚</div>
+   <h2>TELC B2 mavzulari</h2>
+   <p>Kerakli bo‘limni tanlang va testlarni davom ettiring.</p>
+ </section>
+
+ <a class="card" href="lesen.html">
+   <div class="ico2">📖</div><div class="info"><b>Lesen</b><small>Leseverstehen testlari</small></div><div class="arrow">›</div>
+ </a>
+ <a class="card" href="sprach.html">
+   <div class="ico2">🧩</div><div class="info"><b>Sprachbausteine</b><small>Til elementlari va testlar</small></div><div class="arrow">›</div>
+ </a>
+ <a class="card" href="horen.html">
+   <div class="ico2">🎧</div><div class="info"><b>Hören</b><small>Hörverstehen mashqlari</small></div><div class="arrow">›</div>
+ </a>
+</main>
+
+<nav class="bottom">
+ <a class="nav active" href="../index.html"><i>🏠</i>Bosh</a>
+ <a class="nav" href="reyting.html"><i>🏆</i>Reyting</a>
+ <a class="nav" href="profil.html"><i>👤</i>Profil</a>
+</nav>
+</body>
+</html>

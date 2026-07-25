@@ -1,0 +1,31 @@
+<!DOCTYPE html><html lang="uz"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Reyting — Jurabek TELC B2</title><style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;color:#f7f8ff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 10% 5%,rgba(74,144,226,.35),transparent 28%),radial-gradient(circle at 90% 18%,rgba(151,93,255,.28),transparent 30%),linear-gradient(160deg,#10182d,#18284a 55%,#17172c)}
+.app{max-width:720px;margin:auto;padding:20px 18px 115px}.top{display:flex;align-items:center;justify-content:space-between}.top a{color:white;text-decoration:none;font-size:28px}.top h1{font-size:21px}
+.hero{padding:22px;border:1px solid rgba(255,255,255,.12);border-radius:25px;background:linear-gradient(135deg,rgba(220,158,55,.22),rgba(128,76,205,.20));text-align:center;margin-top:15px}
+.hero .cup{font-size:50px}.hero p{color:#c2cbe0}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:18px 0}.tab{padding:12px;border-radius:14px;text-align:center;background:rgba(255,255,255,.07);color:#b8c1d9}.tab.active{background:rgba(255,255,255,.15);color:white}
+.me,.row{display:flex;align-items:center;gap:13px;padding:15px;border-radius:19px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.075);margin:10px 0}
+.me{background:linear-gradient(135deg,rgba(66,115,220,.20),rgba(142,77,210,.18))}.rank{width:34px;text-align:center;font-weight:900;font-size:18px}.avatar{width:45px;height:45px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.13);font-size:22px}
+.info{flex:1}.info b{display:block}.info small{color:#aeb9d0}.xp{text-align:right;font-weight:800}.xp small{display:block;color:#aeb9d0;font-weight:400}
+.bottom{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(720px,100%);display:grid;grid-template-columns:repeat(3,1fr);background:rgba(12,18,34,.94);border-top:1px solid rgba(255,255,255,.12);padding:9px 8px calc(9px + env(safe-area-inset-bottom))}
+.nav{color:#8f9ab5;text-decoration:none;text-align:center;font-size:12px;padding:7px}.nav i{font-style:normal;display:block;font-size:25px}.nav.active{color:white}
+</style></head><body><main class="app">
+<div class="top"><a href="../index.html">‹</a><h1>Reyting</h1><span></span></div>
+<section class="hero"><div class="cup">🏆</div><h2>Jurabek TELC B2 Reytingi</h2><p>Testlar, o‘zlashtirish va Mock natijalari orqali XP to‘plang.</p></section>
+<div class="tabs"><div class="tab active">Haftalik</div><div class="tab">Umumiy</div></div>
+<h3>Mening o‘rnim</h3>
+<div class="me"><div class="rank" id="myRank">—</div><div class="avatar">👤</div><div class="info"><b id="myName">Foydalanuvchi</b><small>B2 o‘quvchi</small></div><div class="xp"><span id="myXp">0</span> XP<small id="myTests">0 test</small></div></div>
+<h3>Top o‘quvchilar</h3>
+<div id="list">
+ <div class="row"><div class="rank">🥇</div><div class="avatar">👤</div><div class="info"><b>1-o‘rin</b><small>Hali ma’lumot yo‘q</small></div><div class="xp">—</div></div>
+ <div class="row"><div class="rank">🥈</div><div class="avatar">👤</div><div class="info"><b>2-o‘rin</b><small>Hali ma’lumot yo‘q</small></div><div class="xp">—</div></div>
+ <div class="row"><div class="rank">🥉</div><div class="avatar">👤</div><div class="info"><b>3-o‘rin</b><small>Hali ma’lumot yo‘q</small></div><div class="xp">—</div></div>
+</div>
+</main>
+<nav class="bottom"><a class="nav" href="../index.html"><i>🏠</i>Bosh</a><a class="nav active" href="reyting.html"><i>🏆</i>Reyting</a><a class="nav" href="profil.html"><i>👤</i>Profil</a></nav>
+<script>
+const p=JSON.parse(localStorage.getItem("jurabekB2Profile")||"{}");
+document.getElementById("myName").textContent=p.name||"Foydalanuvchi";
+document.getElementById("myXp").textContent=p.xp||0;
+document.getElementById("myTests").textContent=(p.completed||0)+" test";
+</script></body></html>
