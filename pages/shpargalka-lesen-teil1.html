@@ -852,7 +852,13 @@ function backMenu(){
 
 }
 
-\n// ===== Javob ovozlari (Web Audio API) =====\nfunction jbTone(ok){\n  try{\n    const C=window.AudioContext||window.webkitAudioContext;\n    if(!C)return;\n    const c=window.__jbAudio||(window.__jbAudio=new C());\n    if(c.state==='suspended')c.resume();\n    const now=c.currentTime;\n    const tones=ok?[[660,0,.09],[880,.10,.12]]:[[220,0,.13],[165,.13,.16]];\n    tones.forEach(([freq,delay,dur])=>{\n      const o=c.createOscillator(),g=c.createGain();\n      o.type=ok?'sine':'triangle'; o.frequency.value=freq;\n      g.gain.setValueAtTime(.0001,now+delay);\n      g.gain.exponentialRampToValueAtTime(.16,now+delay+.012);\n      g.gain.exponentialRampToValueAtTime(.0001,now+delay+dur);\n      o.connect(g);g.connect(c.destination);o.start(now+delay);o.stop(now+delay+dur+.02);\n    });\n  }catch(e){}\n}\nfunction jbCorrectSound(){jbTone(true)}\nfunction jbWrongSound(){jbTone(false)}\n
+
+// ===== Javob ovozlari (Web Audio API) =====
+function jbTone(ok){\n  try{\n    const C=window.AudioContext||window.webkitAudioContext;\n    if(!C)return;\n    const c=window.__jbAudio||(window.__jbAudio=new C());\n    if(c.state==='suspended')c.resume();\n    const now=c.currentTime;\n    const tones=ok?[[660,0,.09],[880,.10,.12]]:[[220,0,.13],[165,.13,.16]];\n    tones.forEach(([freq,delay,dur])=>{\n      const o=c.createOscillator(),g=c.createGain();\n      o.type=ok?'sine':'triangle'; o.frequency.value=freq;\n      g.gain.setValueAtTime(.0001,now+delay);\n      g.gain.exponentialRampToValueAtTime(.16,now+delay+.012);\n      g.gain.exponentialRampToValueAtTime(.0001,now+delay+dur);\n      o.connect(g);g.connect(c.destination);o.start(now+delay);o.stop(now+delay+dur+.02);\n    });\n  }catch(e){}
+}
+function jbCorrectSound(){jbTone(true)}
+function jbWrongSound(){jbTone(false)}
+
 </script>
 
 </body>
