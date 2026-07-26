@@ -18,6 +18,21 @@ html,body{max-width:100%;overflow-x:hidden}
 <script>
 const st=JB2.stats(),p=JB2.profile();ready.textContent=JB2.readiness()+"%";readyBar.style.width=JB2.readiness()+"%";since.textContent="Ilovadan foydalanayotganiga "+JB2.usageDays()+" kun";streak.textContent=(p.streak||0)+" kun";tests.textContent=Object.keys(JB2.results()).length;weak.textContent=JB2.mistakes().length;xp.textContent=p.xp||0;
 const ss=JB2.sectionStats();sections.innerHTML=Object.keys(ss).length?Object.entries(ss).map(([k,v])=>`<div class="row"><span>${k}</span><b>${v}%</b></div>`).join(""):'<p class="muted">Test natijalari yig‘ilgach ko‘rinadi.</p>';
+
+function learningProgress(){
+  const ms=JB2.mistakes();
+  const unique=new Map();
+  ms.forEach((x,i)=>{
+    const key=String(x.id||`${x.section||""}|${x.test||""}|${x.question||i}`);
+    const cc=Math.max(0,Math.min(3,Number(x.correctCount||0)));
+    const prev=unique.get(key);
+    if(prev===undefined||cc>prev) unique.set(key,cc);
+  });
+  if(!unique.size) return 0;
+  const earned=[...unique.values()].reduce((a,b)=>a+b,0);
+  return Math.round(earned/(unique.size*3)*100);
+}
+
 function fmt(sec){sec=sec||0;let h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60);return h?h+" soat "+m+" daq":m+" daqiqa"}
-function range(n,b){document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");let vals=Object.entries(st.days||{}).sort((a,b)=>a[0].localeCompare(b[0]));if(n==="today")vals=vals.filter(x=>x[0]===JB2.day());else if(Number.isInteger(n))vals=vals.slice(-n);let z={questions:0,correct:0,wrong:0,mastered:0,tests:0,seconds:0};vals.forEach(([,v])=>Object.keys(z).forEach(k=>z[k]+=Number(v[k]||0)));let acc=z.questions?Math.round(z.correct/z.questions*100):0;summary.innerHTML=`<div class="stat"><strong>${z.questions}</strong><small>Ishlangan savol</small></div><div class="stat"><strong>${z.correct} / ${z.wrong}</strong><small>To‘g‘ri / xato</small></div><div class="stat"><strong>${acc}%</strong><small>Aniqlik</small></div><div class="stat"><strong>${z.mastered}</strong><small>O‘zlashtirilgan</small></div><div class="stat"><strong>${z.tests}</strong><small>Bajarilgan test</small></div><div class="stat"><strong>${fmt(z.seconds)}</strong><small>Shug‘ullanish vaqti</small></div>`}range("today",document.querySelector(".tab"));
+function range(n,b){document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");let vals=Object.entries(st.days||{}).sort((a,b)=>a[0].localeCompare(b[0]));if(n==="today")vals=vals.filter(x=>x[0]===JB2.day());else if(Number.isInteger(n))vals=vals.slice(-n);let z={questions:0,correct:0,wrong:0,mastered:0,tests:0,seconds:0};vals.forEach(([,v])=>Object.keys(z).forEach(k=>z[k]+=Number(v[k]||0)));let acc=z.questions?Math.round(z.correct/z.questions*100):0;summary.innerHTML=`<div class="stat"><strong>${learningProgress()}%</strong><small>🧠 O‘rganish progressi</small></div><div class="stat"><strong>${z.correct} / ${z.wrong}</strong><small>To‘g‘ri / xato</small></div><div class="stat"><strong>${acc}%</strong><small>Aniqlik</small></div><div class="stat"><strong>${z.mastered}</strong><small>O‘zlashtirilgan</small></div><div class="stat"><strong>${z.tests}</strong><small>Bajarilgan test</small></div><div class="stat"><strong>${fmt(z.seconds)}</strong><small>Shug‘ullanish vaqti</small></div>`}range("today",document.querySelector(".tab"));
 </script></body></html>
