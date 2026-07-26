@@ -56,6 +56,8 @@ body{
 }
 .nav{color:#8f9ab5;text-decoration:none;text-align:center;font-size:12px;padding:7px}
 .nav i{font-style:normal;display:block;font-size:25px;margin-bottom:3px}.nav.active{color:white}
+
+.hero{padding:18px!important;margin-top:12px!important}.avatar{width:112px!important;height:112px!important;font-size:58px!important;margin:4px auto 12px!important;position:relative!important}.avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}.profileEdit{display:flex;align-items:center;gap:6px;margin:0 auto 8px;padding:8px 12px;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(255,255,255,.08);color:#fff;font-weight:700}.hero h2{font-size:27px!important;margin:7px 0!important}.hero p{margin:5px 0 12px!important}.editBox{display:none;margin-top:12px;text-align:left}.editBox.open{display:block}.editBox input{width:100%;padding:12px;margin:6px 0;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:#fff}.editActions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.editActions button,.photoBtn{border:0;border-radius:12px;padding:11px;background:#526fce;color:#fff;font-weight:700}.photoBtn{display:block;text-align:center;margin-top:6px}
 </style>
 <script src="../app.js"></script>
 </head>
@@ -64,8 +66,8 @@ body{
  <div class="top"><a href="../index.html">‹</a><h1>Profil</h1><span style="width:25px"></span></div>
 
  <section class="profile">
-   <div class="avatar">👤</div>
-   <h2 id="username">Foydalanuvchi</h2>
+   <div class="avatar" id="profileAvatar"><span id="avatarFallback">👤</span><img id="avatarImage" alt="Profil rasmi" style="display:none"></div>
+   <button class="profileEdit" id="profileEditBtn" type="button" onclick="toggleEdit()">✏️ Tahrirlash</button><div class="editBox" id="editBox"><label class="photoBtn" for="photoInput">📷 Rasm tanlash</label><input id="photoInput" type="file" accept="image/*" style="display:none"><input id="editName" type="text" placeholder="Ismingiz"><div class="editActions"><button type="button" onclick="saveProfileEdit()">Saqlash</button><button type="button" onclick="toggleEdit()">Bekor qilish</button></div></div><h2 id="username">Foydalanuvchi</h2>
    <div class="level">🇩🇪 Jurabek TELC B2 • B2 tayyorgarlik</div>
    <div class="progress"><div id="xpBar"></div></div>
    <div class="xp"><span id="xp">0</span> XP • <span id="levelText">1-bosqich</span></div>
@@ -110,5 +112,5 @@ set("username",data.name||"Foydalanuvchi");set("mastered",data.mastered||0);set(
 set("accuracy",JB2.readiness()+"%");set("weak",mistakes.length);set("streak",(data.streak||0)+" kun");set("xp",data.xp||0);
 let lvl=Math.max(1,Math.floor((data.xp||0)/500)+1);set("levelText",lvl+"-bosqich");document.getElementById("xpBar").style.width=Math.min(100,((data.xp||0)%500)/5)+"%";
 </script>
-</body>
+<script>(function(){const p=JB2.profile(),img=document.getElementById("avatarImage"),fb=document.getElementById("avatarFallback"),inp=document.getElementById("editName");if(inp)inp.value=p.name||"";if(p.photo){img.src=p.photo;img.style.display="block";fb.style.display="none"}const photo=document.getElementById("photoInput");if(photo)photo.addEventListener("change",function(){const f=this.files&&this.files[0];if(!f)return;const reader=new FileReader();reader.onload=function(e){const im=new Image();im.onload=function(){const c=document.createElement("canvas"),scale=Math.min(1,360/Math.max(im.width,im.height));c.width=Math.round(im.width*scale);c.height=Math.round(im.height*scale);c.getContext("2d").drawImage(im,0,0,c.width,c.height);const data=c.toDataURL("image/jpeg",.82),p2=JB2.profile();p2.photo=data;JB2.saveProfile(p2);img.src=data;img.style.display="block";fb.style.display="none"};im.src=e.target.result};reader.readAsDataURL(f)})})();function toggleEdit(){document.getElementById("editBox").classList.toggle("open")}function saveProfileEdit(){const p=JB2.profile(),v=document.getElementById("editName").value.trim();if(v)p.name=v;JB2.saveProfile(p);const u=document.getElementById("username");if(u)u.textContent=p.name||"Foydalanuvchi";document.getElementById("editBox").classList.remove("open")}</script></body>
 </html>
