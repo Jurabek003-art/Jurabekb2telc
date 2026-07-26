@@ -9,6 +9,19 @@
 .info{flex:1}.info b{display:block}.info small{color:#aeb9d0}.xp{text-align:right;font-weight:800}.xp small{display:block;color:#aeb9d0;font-weight:400}
 .bottom{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(720px,100%);display:grid;grid-template-columns:repeat(3,1fr);background:rgba(12,18,34,.94);border-top:1px solid rgba(255,255,255,.12);padding:9px 8px calc(9px + env(safe-area-inset-bottom))}
 .nav{color:#8f9ab5;text-decoration:none;text-align:center;font-size:12px;padding:7px}.nav i{font-style:normal;display:block;font-size:25px}.nav.active{color:white}
+
+.avatar{
+  width:54px!important;height:54px!important;min-width:54px!important;
+  aspect-ratio:1/1!important;border-radius:50%!important;
+  overflow:hidden!important;padding:0!important;display:grid!important;
+  place-items:center!important;position:relative!important;
+}
+.avatar img{
+  position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+  min-width:100%!important;min-height:100%!important;
+  object-fit:cover!important;object-position:center!important;
+  border-radius:50%!important;clip-path:circle(50%)!important;
+}
 </style><script src="../app.js"></script>
 </head><body><main class="app">
 <div class="top"><a href="../index.html">‹</a><h1>Reyting</h1><span></span></div>
@@ -30,4 +43,54 @@ document.getElementById("myName").textContent=p.name||"Foydalanuvchi";
 document.getElementById("myXp").textContent=p.xp||0;
 document.getElementById("myTests").textContent=(p.completed||0)+" test";
 const av=document.getElementById("myAvatar");if(p.photo)av.innerHTML=`<img src="${p.photo}" alt="">`;
-</script></body></html>
+</script>
+<script>
+(function(){
+  const esc=s=>String(s??"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+  const p=JSON.parse(localStorage.getItem("jurabekB2Profile")||"{}");
+  const me={
+    _me:true,
+    name:p.name||"Foydalanuvchi",
+    photo:p.photo||"",
+    xp:Number(p.xp||0),
+    completed:Number(p.completed||0),
+    level:p.level||"B2 o‘quvchi"
+  };
+
+  let saved=[];
+  try{saved=JSON.parse(localStorage.getItem("jurabekB2Leaderboard")||"[]")}catch(e){}
+  if(!Array.isArray(saved)) saved=[];
+
+  // Do not duplicate this device's own user if a previous local copy exists.
+  const others=saved.filter(x=>!(x&&x._me));
+  const board=[...others,me].sort((a,b)=>Number(b.xp||0)-Number(a.xp||0));
+  const myRank=Math.max(1,board.findIndex(x=>x===me)+1);
+
+  const rankEl=document.getElementById("myRank");
+  if(rankEl) rankEl.textContent=myRank===1?"🥇 1":myRank===2?"🥈 2":myRank===3?"🥉 3":myRank;
+
+  const nameEl=document.getElementById("myName");
+  if(nameEl) nameEl.textContent=me.name;
+  const xpEl=document.getElementById("myXp");
+  if(xpEl) xpEl.textContent=me.xp;
+  const testsEl=document.getElementById("myTests");
+  if(testsEl) testsEl.textContent=me.completed+" test";
+  const av=document.getElementById("myAvatar");
+  if(av) av.innerHTML=me.photo?`<img src="${me.photo}" alt="">`:"👤";
+
+  const list=document.getElementById("list");
+  if(list){
+    list.innerHTML=board.slice(0,20).map((x,i)=>{
+      const pos=i+1, medal=pos===1?"🥇":pos===2?"🥈":pos===3?"🥉":pos;
+      return `<div class="row">
+        <div class="rank">${medal}</div>
+        <div class="avatar">${x.photo?`<img src="${x.photo}" alt="">`:"👤"}</div>
+        <div class="info"><b>${esc(x.name||"Foydalanuvchi")}</b><small>${esc(x.level||"B2 o‘quvchi")}</small></div>
+        <div class="xp">${Number(x.xp||0)} XP<small>${Number(x.completed||0)} test</small></div>
+      </div>`;
+    }).join("");
+  }
+})();
+</script>
+
+</body></html>
