@@ -22,6 +22,16 @@
   object-fit:cover!important;object-position:center!important;
   border-radius:50%!important;clip-path:circle(50%)!important;
 }
+
+/* Shared responsive shell: phone/tablet/desktop */
+html,body{max-width:100%;overflow-x:hidden}
+@media(min-width:760px){
+  body>main,body>.wrap,body>.container{max-width:1040px;margin-left:auto!important;margin-right:auto!important}
+}
+@media(min-width:1100px){
+  body>main,body>.wrap,body>.container{max-width:1100px}
+}
+
 </style><script src="../app.js"></script>
 </head><body><main class="app">
 <div class="top"><a href="../index.html">‹</a><h1>Reyting</h1><span></span></div>

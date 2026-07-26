@@ -8,6 +8,16 @@
 .option:disabled{opacity:1}.correct{outline:2px solid #5fd38d;background:#183326!important}.wrong{outline:2px solid #ff7676;background:#3a2024!important}
 .next{width:100%;padding:15px;margin-top:15px;border:0;border-radius:12px;background:#d7bd78;color:#111;font-size:16px;font-weight:bold}
 .hidden{display:none}.result{text-align:center;background:#1b212c;padding:25px;border-radius:18px;margin-top:25px}.progress{color:#9299a6;font-size:14px}
+
+/* Shared responsive shell: phone/tablet/desktop */
+html,body{max-width:100%;overflow-x:hidden}
+@media(min-width:760px){
+  body>main,body>.wrap,body>.container{max-width:1040px;margin-left:auto!important;margin-right:auto!important}
+}
+@media(min-width:1100px){
+  body>main,body>.wrap,body>.container{max-width:1100px}
+}
+
 </style><script src="../app.js"></script>
 </head><body><div class="wrap"><a href="lesen.html">← Lesen</a><h1>📖 Lesen — Teil 1</h1><div id="menu"></div><div id="quiz" class="hidden"></div></div>
 <script>

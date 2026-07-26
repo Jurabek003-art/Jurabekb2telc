@@ -40,7 +40,17 @@
       font-size: 18px;
       margin-top: 15px;
     }
-  </style>
+  
+/* Shared responsive shell: phone/tablet/desktop */
+html,body{max-width:100%;overflow-x:hidden}
+@media(min-width:760px){
+  body>main,body>.wrap,body>.container{max-width:1040px;margin-left:auto!important;margin-right:auto!important}
+}
+@media(min-width:1100px){
+  body>main,body>.wrap,body>.container{max-width:1100px}
+}
+
+</style>
 <script src="../app.js"></script>
 </head>
 
