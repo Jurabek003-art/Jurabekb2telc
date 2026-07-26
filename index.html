@@ -57,20 +57,25 @@ body{
 .statsbar{height:11px;background:rgba(255,255,255,.16);border-radius:10px;overflow:hidden;margin:13px 0 12px}.statsbar div{height:100%;background:#79dc43;border-radius:10px}
 .statsNumbers{display:flex;gap:15px;flex-wrap:wrap;color:#dbe8df;font-size:13px;font-weight:700}.statsNumbers .ok{color:#80e39a}.statsNumbers .bad{color:#ff8585}.statsNumbers .all{color:#b9c3d1}
 
+
+.homeControls{display:flex;align-items:center;justify-content:space-between;margin:2px 2px 12px;min-height:46px}
+.homeBrand{font-weight:800;font-size:17px;color:#dfe8ff}
+.settingsBtn{position:static!important;width:44px;height:44px;display:grid;place-items:center;border-radius:14px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.08);color:#fff;text-decoration:none;font-size:23px;flex:0 0 44px}
+.statsdash{margin-top:0!important}
+.grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+.card{min-height:0!important;height:168px!important;padding:18px!important;border-radius:22px!important;display:flex!important;flex-direction:column!important;justify-content:flex-start!important}
+.card .icon{font-size:31px!important;margin-bottom:13px!important}
+.card b{font-size:21px!important;line-height:1.12!important;margin-bottom:8px!important}
+.card span{font-size:14px!important;line-height:1.35!important;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card.mock{grid-column:auto!important}
+@media(max-width:390px){.card{height:158px!important;padding:16px!important}.card b{font-size:19px!important}.card span{font-size:13px!important}}
 </style>
 <script src="app.js"></script>
 </head>
 <body>
-<a id="homeSettings" href="pages/sozlamalar.html" aria-label="Sozlamalar" style="position:absolute;right:22px;top:18px;z-index:20;color:#fff;text-decoration:none;font-size:24px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);width:44px;height:44px;border-radius:14px;display:grid;place-items:center">⚙️</a>
 <main class="app">
-  <section class="hero">
-    <small>🇩🇪 TELC B2 tayyorgarlik</small>
-    <h1>Jurabek TELC B2</h1>
-    <p>Bugungi mashg‘ulotni davom ettiring va B2 maqsadingizga yaqinlashing.</p>
-  </section>
-
-  
-  <a class="statsdash" href="pages/statistika.html">
+<div class="homeControls"><div class="homeBrand">🇩🇪 TELC B2</div><a class="settingsBtn" href="pages/sozlamalar.html" aria-label="Sozlamalar">⚙️</a></div>
+<a class="statsdash" href="pages/statistika.html">
     <div class="statsTop">
       <span id="examDays">Imtihon sanasi kiritilmagan</span>
       <span>📊 Statistika ›</span>
