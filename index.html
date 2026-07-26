@@ -49,6 +49,11 @@ body{
 .nav{border:0;background:none;color:#8f9ab5;padding:7px;font-size:12px;text-decoration:none;text-align:center}
 .nav i{font-style:normal;display:block;font-size:25px;margin-bottom:3px}.nav.active{color:#fff}
 @media(max-width:430px){.hero h1{font-size:25px}.card{min-height:135px;padding:16px}}
+
+.statsdash{margin:0 0 20px;padding:18px;border:1px solid var(--line);border-radius:23px;background:rgba(255,255,255,.075);color:#fff;text-decoration:none;display:block}
+.statshead{display:flex;align-items:center;justify-content:space-between;gap:12px}.statshead b{font-size:18px}.statspercent{font-size:27px;font-weight:900}
+.statsbar{height:9px;background:rgba(255,255,255,.12);border-radius:10px;overflow:hidden;margin:12px 0}.statsbar div{height:100%;background:linear-gradient(90deg,#55a7ff,#65d29a)}
+.statsmini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.statsmini div{background:rgba(255,255,255,.07);padding:10px 6px;border-radius:13px;text-align:center}.statsmini strong{display:block;font-size:16px}.statsmini small{color:#b8c1d9;font-size:11px}
 </style>
 <script src="app.js"></script>
 </head>
@@ -59,6 +64,17 @@ body{
     <h1>Jurabek TELC B2</h1>
     <p>Bugungi mashg‘ulotni davom ettiring va B2 maqsadingizga yaqinlashing.</p>
   </section>
+
+  <a class="statsdash" href="pages/statistika.html">
+    <div class="statshead"><div><small>📊 Umumiy statistika</small><br><b>O‘zlashtirish</b></div><div class="statspercent" id="homeReady">0%</div></div>
+    <div class="statsbar"><div id="homeReadyBar" style="width:0%"></div></div>
+    <div class="statsmini">
+      <div><strong id="homeDays">1 kun</strong><small>foydalanmoqda</small></div>
+      <div><strong id="homeStreak">0 🔥</strong><small>streak</small></div>
+      <div><strong id="homeToday">0 · 0%</strong><small>bugun savol · aniqlik</small></div>
+    </div>
+  </a>
+
 
   <h2 class="section-title">Bosh menyu</h2>
   <section class="grid">
@@ -96,5 +112,9 @@ body{
   <a class="nav" href="pages/reyting.html"><i>🏆</i>Reyting</a>
   <a class="nav" href="pages/profil.html"><i>👤</i>Profil</a>
 </nav>
-</body>
+<script>
+(function(){const r=JB2.readiness(),p=JB2.profile(),st=JB2.stats(),d=st.days[JB2.day()]||{},q=d.questions||0,acc=q?Math.round((d.correct||0)/q*100):0;
+document.getElementById("homeReady").textContent=r+"%";document.getElementById("homeReadyBar").style.width=r+"%";
+document.getElementById("homeDays").textContent=JB2.usageDays()+" kun";document.getElementById("homeStreak").textContent=(p.streak||0)+" 🔥";document.getElementById("homeToday").textContent=q+" · "+acc+"%";})();
+</script></body>
 </html>
