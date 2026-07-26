@@ -50,14 +50,18 @@ body{
 .nav i{font-style:normal;display:block;font-size:25px;margin-bottom:3px}.nav.active{color:#fff}
 @media(max-width:430px){.hero h1{font-size:25px}.card{min-height:135px;padding:16px}}
 
-.statsdash{margin:0 0 20px;padding:18px;border:1px solid var(--line);border-radius:23px;background:rgba(255,255,255,.075);color:#fff;text-decoration:none;display:block}
-.statshead{display:flex;align-items:center;justify-content:space-between;gap:12px}.statshead b{font-size:18px}.statspercent{font-size:27px;font-weight:900}
-.statsbar{height:9px;background:rgba(255,255,255,.12);border-radius:10px;overflow:hidden;margin:12px 0}.statsbar div{height:100%;background:linear-gradient(90deg,#55a7ff,#65d29a)}
-.statsmini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.statsmini div{background:rgba(255,255,255,.07);padding:10px 6px;border-radius:13px;text-align:center}.statsmini strong{display:block;font-size:16px}.statsmini small{color:#b8c1d9;font-size:11px}
+
+.statsdash{margin:0 0 20px;padding:18px 20px;border:1px solid rgba(255,255,255,.12);border-radius:23px;background:linear-gradient(135deg,rgba(29,104,53,.88),rgba(15,69,39,.92));color:#fff;text-decoration:none;display:block;box-shadow:0 10px 28px rgba(0,0,0,.16)}
+.statsTop{display:flex;justify-content:space-between;align-items:center;color:#c8d7ce;font-size:13px;margin-bottom:3px}
+.statsMain{display:flex;justify-content:space-between;align-items:end;gap:12px}.statspercent{font-size:42px;line-height:1;font-weight:900;letter-spacing:-1px}.statsStreak{font-size:15px;font-weight:800}
+.statsbar{height:11px;background:rgba(255,255,255,.16);border-radius:10px;overflow:hidden;margin:13px 0 12px}.statsbar div{height:100%;background:#79dc43;border-radius:10px}
+.statsNumbers{display:flex;gap:15px;flex-wrap:wrap;color:#dbe8df;font-size:13px;font-weight:700}.statsNumbers .ok{color:#80e39a}.statsNumbers .bad{color:#ff8585}.statsNumbers .all{color:#b9c3d1}
+
 </style>
 <script src="app.js"></script>
 </head>
 <body>
+<a id="homeSettings" href="pages/sozlamalar.html" aria-label="Sozlamalar" style="position:absolute;right:22px;top:18px;z-index:20;color:#fff;text-decoration:none;font-size:24px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);width:44px;height:44px;border-radius:14px;display:grid;place-items:center">⚙️</a>
 <main class="app">
   <section class="hero">
     <small>🇩🇪 TELC B2 tayyorgarlik</small>
@@ -65,15 +69,25 @@ body{
     <p>Bugungi mashg‘ulotni davom ettiring va B2 maqsadingizga yaqinlashing.</p>
   </section>
 
+  
   <a class="statsdash" href="pages/statistika.html">
-    <div class="statshead"><div><small>📊 Umumiy statistika</small><br><b>O‘zlashtirish</b></div><div class="statspercent" id="homeReady">0%</div></div>
+    <div class="statsTop">
+      <span id="examDays">Imtihon sanasi kiritilmagan</span>
+      <span>📊 Statistika ›</span>
+    </div>
+    <div class="statsMain">
+      <div class="statspercent" id="homeReady">0%</div>
+      <div class="statsStreak">🔥 <span id="homeStreak">0 kun</span></div>
+    </div>
     <div class="statsbar"><div id="homeReadyBar" style="width:0%"></div></div>
-    <div class="statsmini">
-      <div><strong id="homeDays">1 kun</strong><small>foydalanmoqda</small></div>
-      <div><strong id="homeStreak">0 🔥</strong><small>streak</small></div>
-      <div><strong id="homeToday">0 · 0%</strong><small>bugun savol · aniqlik</small></div>
+    <div class="statsNumbers">
+      <span class="ok">✓ <span id="homeCorrect">0</span></span>
+      <span class="bad">✕ <span id="homeWrong">0</span></span>
+      <span class="all">= <span id="homeTotal">0</span></span>
+      <span>📅 <span id="homeDays">1 kun</span></span>
     </div>
   </a>
+
 
 
   <h2 class="section-title">Bosh menyu</h2>
@@ -113,8 +127,22 @@ body{
   <a class="nav" href="pages/profil.html"><i>👤</i>Profil</a>
 </nav>
 <script>
-(function(){const r=JB2.readiness(),p=JB2.profile(),st=JB2.stats(),d=st.days[JB2.day()]||{},q=d.questions||0,acc=q?Math.round((d.correct||0)/q*100):0;
-document.getElementById("homeReady").textContent=r+"%";document.getElementById("homeReadyBar").style.width=r+"%";
-document.getElementById("homeDays").textContent=JB2.usageDays()+" kun";document.getElementById("homeStreak").textContent=(p.streak||0)+" 🔥";document.getElementById("homeToday").textContent=q+" · "+acc+"%";})();
+(function(){
+ const r=JB2.readiness(),p=JB2.profile(),st=JB2.stats();
+ let correct=0,wrong=0,total=0;
+ Object.values(st.days||{}).forEach(d=>{correct+=Number(d.correct||0);wrong+=Number(d.wrong||0);total+=Number(d.questions||0)});
+ document.getElementById("homeReady").textContent=r+"%";
+ document.getElementById("homeReadyBar").style.width=r+"%";
+ document.getElementById("homeStreak").textContent=(p.streak||0)+" kun";
+ document.getElementById("homeCorrect").textContent=correct;
+ document.getElementById("homeWrong").textContent=wrong;
+ document.getElementById("homeTotal").textContent=total;
+ document.getElementById("homeDays").textContent=JB2.usageDays()+" kun";
+ const ex=document.getElementById("examDays");
+ if(p.examDate){
+   const n=Math.ceil((new Date(p.examDate+"T12:00:00")-new Date())/86400000);
+   ex.textContent=n>=0?("Imtihongacha "+n+" kun"):("Imtihon sanasi o‘tgan");
+ }else ex.textContent="Imtihon sanasini kiriting ✎";
+})();
 </script></body>
 </html>
