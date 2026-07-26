@@ -1,109 +1,22 @@
-<!DOCTYPE html>
-<html lang="uz">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>O‘zlashtirilmaganlar — Jurabek TELC B2</title>
-<style>
-*{box-sizing:border-box}
-body{
- margin:0;min-height:100vh;color:#f7f8ff;
- font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
- background:
- radial-gradient(circle at 12% 5%,rgba(48,158,151,.32),transparent 28%),
- radial-gradient(circle at 90% 18%,rgba(151,93,255,.28),transparent 30%),
- linear-gradient(160deg,#10182d,#18284a 55%,#17172c)
-}
-.app{max-width:720px;margin:auto;padding:20px 18px 115px}
-.top{display:flex;align-items:center;justify-content:space-between}
-.top a{color:white;text-decoration:none;font-size:28px}.top h1{font-size:21px}
-.hero,.card{
- border:1px solid rgba(255,255,255,.12);border-radius:23px;
- background:rgba(255,255,255,.075);padding:19px;margin-top:14px
-}
-.hero{background:linear-gradient(135deg,rgba(26,139,120,.22),rgba(119,76,203,.20))}
-.hero .ico{font-size:43px}.hero p,.muted{color:#b8c1d9;line-height:1.45}
-.count{font-size:34px;font-weight:900;margin-top:8px}
-.filters{display:flex;gap:8px;overflow:auto;margin:16px 0}
-.filter{white-space:nowrap;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.07);color:#c7d0e5;border-radius:14px;padding:10px 13px}
-.filter.active{background:#526fce;color:white}
-.item{display:flex;gap:12px;align-items:center}
-.item .ico{font-size:28px}.info{flex:1}.info b{display:block}.info small{color:#aeb9d0}
-.badge{font-size:12px;background:rgba(255,104,104,.16);color:#ffaaaa;padding:6px 9px;border-radius:20px}
-.empty{text-align:center;padding:35px 15px}.empty .ico{font-size:50px}
-button.retry{width:100%;margin-top:13px;border:0;border-radius:14px;padding:12px;background:linear-gradient(135deg,#3e77d8,#8055ca);color:white;font-weight:700}
-.bottom{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(720px,100%);display:grid;grid-template-columns:repeat(3,1fr);background:rgba(12,18,34,.94);border-top:1px solid rgba(255,255,255,.12);padding:9px 8px calc(9px + env(safe-area-inset-bottom))}
-.nav{color:#8f9ab5;text-decoration:none;text-align:center;font-size:12px;padding:7px}.nav i{font-style:normal;display:block;font-size:25px}.nav.active{color:white}
-</style>
-</head>
-<body>
-<main class="app">
- <div class="top"><a href="../index.html">‹</a><h1>O‘zlashtirilmaganlar</h1><span></span></div>
-
- <section class="hero">
-   <div class="ico">📌</div>
-   <h2>Qayta ishlash</h2>
-   <p>Testlarda xato qilingan savollar shu yerga yig‘iladi. To‘g‘ri ishlaganingizdan keyin ro‘yxatdan chiqarish mumkin.</p>
-   <div class="count"><span id="total">0</span> ta</div>
- </section>
-
- <div class="filters">
-   <button class="filter active" onclick="show('all',this)">Hammasi</button>
-   <button class="filter" onclick="show('Lesen',this)">📖 Lesen</button>
-   <button class="filter" onclick="show('Hören',this)">🎧 Hören</button>
-   <button class="filter" onclick="show('Sprachbausteine',this)">🧩 Sprach</button>
- </div>
-
- <div id="list"></div>
-</main>
-
-<nav class="bottom">
- <a class="nav active" href="../index.html"><i>🏠</i>Bosh</a>
- <a class="nav" href="reyting.html"><i>🏆</i>Reyting</a>
- <a class="nav" href="profil.html"><i>👤</i>Profil</a>
-</nav>
-
+<!doctype html><html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>O‘zlashtirilmaganlar</title><script src="../app.js"></script>
+<style>*{box-sizing:border-box}body{margin:0;min-height:100vh;color:#f7f8ff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 12% 5%,rgba(48,158,151,.32),transparent 28%),radial-gradient(circle at 90% 18%,rgba(151,93,255,.28),transparent 30%),linear-gradient(160deg,#10182d,#18284a 55%,#17172c)}.app{max-width:720px;margin:auto;padding:20px 18px 105px}.top{display:flex;align-items:center;justify-content:space-between}.top a{color:#fff;text-decoration:none;font-size:28px}.hero,.card{border:1px solid #ffffff1f;border-radius:23px;background:#ffffff12;padding:19px;margin-top:14px}.hero{background:linear-gradient(135deg,#1a8b7838,#774ccb33)}.hero p,.muted{color:#b8c1d9;line-height:1.45}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}.stat{background:#ffffff12;border-radius:15px;padding:12px;text-align:center}.stat b{display:block;font-size:22px}.stat small{color:#b8c1d9}.filters{display:flex;gap:8px;overflow:auto;margin:16px 0}.filter{white-space:nowrap;border:1px solid #ffffff1f;background:#ffffff12;color:#c7d0e5;border-radius:14px;padding:10px 13px}.filter.active{background:#526fce;color:#fff}.item{display:flex;gap:12px;align-items:center}.ico{font-size:28px}.info{flex:1}.info b{display:block}.info small{color:#aeb9d0}.progress{height:8px;background:#ffffff1a;border-radius:9px;overflow:hidden;margin:13px 0}.bar{height:100%;background:#5fd38d}.retry,.answer,.next{width:100%;border:0;border-radius:14px;padding:13px;color:#fff;font-weight:700}.retry,.next{background:linear-gradient(135deg,#3e77d8,#8055ca)}.answer{background:#ffffff12;border:1px solid #ffffff1f;text-align:left;margin:6px 0}.good{outline:2px solid #5fd38d;background:#183326}.bad{outline:2px solid #ff7676;background:#3a2024}.badge{font-size:12px;background:#ffffff16;padding:6px 9px;border-radius:20px}.empty{text-align:center;padding:35px 15px}.hidden{display:none}.qtext{white-space:pre-wrap;line-height:1.5}.bottom{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(720px,100%);display:grid;grid-template-columns:repeat(3,1fr);background:#0c1222f0;border-top:1px solid #ffffff1f;padding:9px 8px}.nav{color:#8f9ab5;text-decoration:none;text-align:center;font-size:12px;padding:7px}.nav i{display:block;font-style:normal;font-size:25px}</style></head><body>
+<main class="app"><div class="top"><a href="../index.html">‹</a><h1>O‘zlashtirilmaganlar</h1><a href="sozlamalar.html" style="font-size:22px">⚙️</a></div>
+<section class="hero"><div class="ico">🧠</div><h2>3/3 o‘zlashtirish</h2><p>Qo‘lda “o‘zlashtirildi” yo‘q. Savol faqat <b>3 marta ketma-ket to‘g‘ri</b> ishlangandan keyin avtomatik chiqadi. Xato javob progressni 0/3 ga qaytaradi.</p><div class="stats"><div class="stat"><b id="total">0</b><small>Qolgan</small></div><div class="stat"><b id="today">0</b><small>Bugun</small></div><div class="stat"><b id="hard">0</b><small>Qiyin</small></div></div></section>
+<div class="filters"><button class="filter active" onclick="setFilter('all',this)">Hammasi</button><button class="filter" onclick="setFilter('Lesen',this)">📖 Lesen</button><button class="filter" onclick="setFilter('Hören',this)">🎧 Hören</button><button class="filter" onclick="setFilter('Sprachbausteine',this)">🧩 Sprach</button></div>
+<div id="list"></div><div id="practice" class="hidden"></div></main>
+<nav class="bottom"><a class="nav" href="../index.html"><i>🏠</i>Bosh</a><a class="nav" href="reyting.html"><i>🏆</i>Reyting</a><a class="nav" href="profil.html"><i>👤</i>Profil</a></nav>
 <script>
-let mistakes = JSON.parse(localStorage.getItem("jurabekB2Mistakes") || "[]");
-let current="all";
-
-function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
-
-function render(){
- const list=document.getElementById("list");
- const data=current==="all"?mistakes:mistakes.filter(x=>x.section===current);
- document.getElementById("total").textContent=mistakes.length;
-
- if(!data.length){
-   list.innerHTML='<div class="card empty"><div class="ico">✅</div><h3>Hozircha bo‘sh</h3><div class="muted">Xato qilingan savollar avtomatik shu yerda paydo bo‘ladi.</div></div>';
-   return;
- }
-
- list.innerHTML=data.map((x,i)=>`
- <div class="card">
-  <div class="item">
-   <div class="ico">${x.section==="Hören"?"🎧":x.section==="Sprachbausteine"?"🧩":"📖"}</div>
-   <div class="info">
-    <b>${esc(x.test || "Test")} • ${esc(x.question || "Savol")}</b>
-    <small>${esc(x.section || "Lesen")}</small>
-   </div>
-   <span class="badge">Qayta ishlash</span>
-  </div>
-  <button class="retry" onclick="removeMistake('${esc(x.id || i)}')">✓ O‘zlashtirildi</button>
- </div>`).join("");
-}
-
-function show(type,el){
- current=type;
- document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));
- el.classList.add("active");render();
-}
-
-function removeMistake(id){
- mistakes=mistakes.filter((x,i)=>String(x.id||i)!==String(id));
- localStorage.setItem("jurabekB2Mistakes",JSON.stringify(mistakes));
- render();
-}
+let mistakes=JB2.mistakes(),filter="all",active=null,locked=false;
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const sh=a=>[...a].sort(()=>Math.random()-.5);
+function save(){JB2.saveMistakes(mistakes)}
+function stats(){document.getElementById("total").textContent=mistakes.length;document.getElementById("hard").textContent=mistakes.filter(x=>(x.wrongCount||0)>=3).length;document.getElementById("today").textContent=Number(localStorage.getItem("jb2MasteredToday")||0)}
+function setFilter(f,b){filter=f;document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));b.classList.add("active");render()}
+function render(){stats();const d=filter==="all"?mistakes:mistakes.filter(x=>x.section===filter);const el=document.getElementById("list");document.getElementById("practice").classList.add("hidden");el.classList.remove("hidden");if(!d.length){el.innerHTML='<div class="card empty"><div class="ico">✅</div><h3>Hammasi o‘zlashtirilgan!</h3><div class="muted">Yangi xato savollar avtomatik shu yerga tushadi.</div></div>';return}el.innerHTML=d.map(x=>`<div class="card"><div class="item"><div class="ico">${x.section==="Hören"?"🎧":x.section==="Sprachbausteine"?"🧩":"📖"}</div><div class="info"><b>${esc(x.test||"Test")} • ${esc(String(x.question||"Savol").slice(0,70))}</b><small>${esc(x.section||"Lesen")} · xato ${(x.wrongCount||1)} marta</small></div><span class="badge">${x.correctCount||0}/3</span></div><div class="progress"><div class="bar" style="width:${(x.correctCount||0)*33.34}%"></div></div><button class="retry" onclick='practice(${JSON.stringify(x.id)})'>▶ Qayta ishlash</button></div>`).join("")}
+function practice(id){active=mistakes.find(x=>String(x.id)===String(id));if(!active)return;locked=false;document.getElementById("list").classList.add("hidden");const p=document.getElementById("practice");p.classList.remove("hidden");let correct=String(active.answer??active.correct??active.correctAnswer??"").trim();let opts=[];if(Array.isArray(active.options))opts=active.options.map(String);else if(Array.isArray(active.choices))opts=active.choices.map(String);else {opts=mistakes.map(x=>String(x.answer??x.correct??"").trim()).filter(Boolean)}if(correct&&!opts.includes(correct))opts.push(correct);opts=[...new Set(opts)].filter(Boolean);if(opts.length<2){p.innerHTML=`<div class="card"><div class="badge">${active.correctCount||0}/3</div><h3 class="qtext">${esc(active.question||"Savol")}</h3><p class="muted">Bu eski xato yozuvida javob variantlari saqlanmagan. To‘g‘ri javobni eslab ko‘ring.</p><button class="answer" onclick="selfCheck(true)">Esladim — javobni ko‘rsat</button><button class="next" onclick="render()">← Orqaga</button><div id="reveal"></div></div>`;return}opts=sh(opts).slice(0,6);if(!opts.includes(correct)){opts.pop();opts.push(correct);opts=sh(opts)}p.innerHTML=`<div class="card"><span class="badge">${active.correctCount||0}/3</span><h3 class="qtext">${esc(active.question||"Savol")}</h3><div id="answers">${opts.map(o=>`<button class="answer" onclick='choose(this,${JSON.stringify(o)},${JSON.stringify(correct)})'>${esc(o)}</button>`).join("")}</div><button class="next" style="margin-top:12px" onclick="render()">← Ro‘yxatga qaytish</button></div>`}
+function choose(btn,val,correct){if(locked)return;locked=true;active.attempts=(active.attempts||0)+1;if(val===correct){btn.classList.add("good");active.correctCount=(active.correctCount||0)+1;JB2.addXP(5);if(active.correctCount>=3){mistakes=mistakes.filter(x=>x.id!==active.id);localStorage.setItem("jb2MasteredToday",Number(localStorage.getItem("jb2MasteredToday")||0)+1);JB2.addXP(15);save();setTimeout(render,650);return}}else{btn.classList.add("bad");active.correctCount=0;active.wrongCount=(active.wrongCount||0)+1;[...document.querySelectorAll(".answer")].forEach(b=>{if(b.textContent===correct)b.classList.add("good")})}save();setTimeout(()=>practice(active.id),850)}
+function selfCheck(){const r=document.getElementById("reveal");if(r.innerHTML)return;const c=String(active.answer??active.correct??"Javob saqlanmagan");r.innerHTML=`<div class="card"><b>To‘g‘ri javob:</b><p>${esc(c)}</p><button class="answer" onclick="manual(true)">✅ To‘g‘ri esladim</button><button class="answer" onclick="manual(false)">❌ Xato esladim</button></div>`}
+function manual(ok){if(ok){active.correctCount=(active.correctCount||0)+1;if(active.correctCount>=3){mistakes=mistakes.filter(x=>x.id!==active.id);localStorage.setItem("jb2MasteredToday",Number(localStorage.getItem("jb2MasteredToday")||0)+1);JB2.addXP(15)}}else{active.correctCount=0;active.wrongCount=(active.wrongCount||0)+1}save();render()}
 render();
-</script>
-</body></html>
+</script></body></html>

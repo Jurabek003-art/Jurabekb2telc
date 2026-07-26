@@ -57,6 +57,7 @@ body{
 .nav{color:#8f9ab5;text-decoration:none;text-align:center;font-size:12px;padding:7px}
 .nav i{font-style:normal;display:block;font-size:25px;margin-bottom:3px}.nav.active{color:white}
 </style>
+<script src="../app.js"></script>
 </head>
 <body>
 <main class="app">
@@ -86,6 +87,10 @@ body{
  <a class="row" href="mock.html">
    <div class="ico">🎓</div><div><b>Mock imtihon natijalari</b><small>TELC B2 sinov imtihonlari tarixi</small></div><div class="arrow">›</div>
  </a>
+ <a class="row" href="tayyorgarlik.html"><div class="ico">🎯</div><div><b>B2 tayyorligim</b><small>Tayyorlik foizi, zaif bo‘limlar va imtihon rejasi</small></div><div class="arrow">›</div></a>
+ <a class="row" href="challenge.html"><div class="ico">🔥</div><div><b>Challenge va XP</b><small>Kunlik vazifalar va streak</small></div><div class="arrow">›</div></a>
+ <a class="row" href="akkaunt.html"><div class="ico">👤</div><div><b>Akkaunt</b><small>Profil va imtihon sanasi</small></div><div class="arrow">›</div></a>
+ <a class="row" href="sozlamalar.html"><div class="ico">⚙️</div><div><b>Sozlamalar</b><small>Fon, ovoz, vibratsiya va eslatmalar</small></div><div class="arrow">›</div></a>
  <a class="row certificate" href="sertifikatlar.html">
    <div class="ico">🏆</div><div><b>Yutuqlarim va sertifikatlarim</b><small>Mock natijalari asosidagi yutuqlar va PDF sertifikatlar</small></div><div class="arrow">›</div>
  </a>
@@ -98,16 +103,11 @@ body{
 </nav>
 
 <script>
-/* Keyinchalik testlar va Mock natijalari shu statistikani avtomatik yangilaydi. */
-const data=JSON.parse(localStorage.getItem("jurabekB2Profile")||'{}');
+const data=JB2.profile(), mistakes=JB2.mistakes(), results=Object.values(JB2.results());
 const set=(id,v)=>document.getElementById(id).textContent=v;
-set("username",data.name||"Foydalanuvchi");
-set("mastered",data.mastered||0); set("completed",data.completed||0);
-set("accuracy",(data.accuracy||0)+"%"); set("weak",data.weak||0);
-set("streak",(data.streak||0)+" kun"); set("xp",data.xp||0);
-let lvl=Math.max(1,Math.floor((data.xp||0)/500)+1);
-set("levelText",lvl+"-bosqich");
-document.getElementById("xpBar").style.width=Math.min(100,((data.xp||0)%500)/5)+"%";
+set("username",data.name||"Foydalanuvchi");set("mastered",data.mastered||0);set("completed",results.length);
+set("accuracy",JB2.readiness()+"%");set("weak",mistakes.length);set("streak",(data.streak||0)+" kun");set("xp",data.xp||0);
+let lvl=Math.max(1,Math.floor((data.xp||0)/500)+1);set("levelText",lvl+"-bosqich");document.getElementById("xpBar").style.width=Math.min(100,((data.xp||0)%500)/5)+"%";
 </script>
 </body>
 </html>
