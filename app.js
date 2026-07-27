@@ -29,13 +29,11 @@
   },
   saveMistakes(a){this.set("jurabekB2Mistakes",a);this.set("wrongQuestions",a)},
   results(){return this.get("testResults",{})},
-  readiness(){
-   const vals=Object.values(this.results()).map(x=>Number(x.percent)).filter(Number.isFinite);
-   if(!vals.length)return 0;
-   const avg=vals.reduce((a,b)=>a+b,0)/vals.length;
-   const penalty=Math.min(20,this.mistakes().length*.25);
-   return Math.max(0,Math.min(100,Math.round(avg-penalty)))
-  },
+  mastery(id){const all=this.get("jurabekB2Mastery",{}),x=all[id]||{};return {correctCount:Number(x.correctCount||0),mastered:!!x.mastered}},
+  recordAnswer(id,ok){let all=this.get("jurabekB2Mastery",{}),x=all[id]||{correctCount:0,attempts:0,mastered:false};x.attempts=(x.attempts||0)+1;if(ok&&!x.mastered){x.correctCount=Math.min(15,(x.correctCount||0)+1);if(x.correctCount>=15){x.mastered=true;this.addDaily("mastered",1);this.addXP(15)}}all[id]=x;this.set("jurabekB2Mastery",all);return x},
+  masteredCount(){return Object.values(this.get("jurabekB2Mastery",{})).filter(x=>x&&x.mastered).length},
+  totalQuestionCount(){return 637},
+  readiness(){return Math.min(100,Math.round((this.masteredCount()/this.totalQuestionCount())*100))},
   sectionStats(){
    const g={};Object.values(this.results()).forEach(x=>{const n=x.sectionName||x.section||"Boshqa";(g[n]??=[]).push(Number(x.percent)||0)});
    const out={};Object.entries(g).forEach(([k,v])=>out[k]=Math.round(v.reduce((a,b)=>a+b,0)/v.length));return out
