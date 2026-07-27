@@ -38,6 +38,13 @@
    const g={};Object.values(this.results()).forEach(x=>{const n=x.sectionName||x.section||"Boshqa";(g[n]??=[]).push(Number(x.percent)||0)});
    const out={};Object.entries(g).forEach(([k,v])=>out[k]=Math.round(v.reduce((a,b)=>a+b,0)/v.length));return out
   },
+
+ // Server sync / admin support
+ apiBase(){const q=new URLSearchParams(location.search).get("api");if(q){localStorage.setItem("jurabekB2Api",q);return q.replace(/\/$/,"")}return (localStorage.getItem("jurabekB2Api")||"").replace(/\/$/,"")},
+ initData(){return (window.Telegram&&Telegram.WebApp&&Telegram.WebApp.initData)||""},
+ async api(path,opts={}){const base=this.apiBase();if(!base)return null;const headers={"Content-Type":"application/json","X-Telegram-Init-Data":this.initData(),...(opts.headers||{})};try{const r=await fetch(base+path,{...opts,headers});if(!r.ok)return null;return await r.json()}catch(e){return null}},
+ totals(){const st=this.stats();let correct=0,wrong=0,questions=0;Object.values(st.days||{}).forEach(d=>{correct+=Number(d.correct||0);wrong+=Number(d.wrong||0);questions+=Number(d.questions||0)});return {correct,wrong,questions}},
+ async syncServer(){const p=this.profile(),t=this.totals();return await this.api("/api/sync",{method:"POST",body:JSON.stringify({stats:{xp:Number(p.xp||0),completed:Number(p.completed||0),correct:t.correct,wrong:t.wrong,mastered:this.masteredCount(),total_questions:this.totalQuestionCount(),readiness:this.readiness()}})})},
   settings(){return {...{theme:"dark",sound:true,volume:70,haptic:true,notifications:true,font:100,lang:"uz"},...this.get("jurabekB2Settings",{})}},
   applySettings(){const s=this.settings();document.documentElement.style.fontSize=(s.font||100)+"%"},
   addXP(n){let p=this.profile();p.xp=(p.xp||0)+n;this.saveProfile(p)}
@@ -46,5 +53,5 @@
  let started=Date.now();
  window.addEventListener("pagehide",()=>{const sec=Math.max(0,Math.round((Date.now()-started)/1000));if(sec<7200)J.addDaily("seconds",sec)});
  document.addEventListener("click",e=>{const b=e.target.closest("button.option,button.answer");if(!b||b.dataset.jb2counted)return;b.dataset.jb2counted="1";setTimeout(()=>{J.addDaily("questions",1);if(b.classList.contains("correct")||b.classList.contains("good"))J.addDaily("correct",1);else if(b.classList.contains("wrong")||b.classList.contains("bad"))J.addDaily("wrong",1)},80)},true);
- document.addEventListener("DOMContentLoaded",()=>J.applySettings());
+ document.addEventListener("DOMContentLoaded",()=>{J.applySettings();setTimeout(()=>J.syncServer(),600)});
 })();
