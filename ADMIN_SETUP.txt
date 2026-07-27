@@ -2,9 +2,12 @@ ADMIN PANEL SOZLAMASI
 
 Render/hosting Environment Variables:
 1) ADMIN_ID = sizning Telegram numeric ID raqamingiz
-   Bir nechta admin: ADMIN_IDS = 123456789,987654321
+   Bir nechta admin: ADMIN_IDS = {881119277}
 2) PUBLIC_API_URL = bot.py ishlayotgan backend manzili, masalan https://YOUR-SERVICE.onrender.com
 3) WEBAPP_URL = https://jurabek003-art.github.io/Jurabekb2telc/
 4) BOT_TOKEN = Telegram bot token
 
 Muhim: botdagi “O‘qishni boshlash” tugmasi WEBAPP_URL ga ?api=PUBLIC_API_URL qo‘shib ochadi. Shundan keyin Mini App backend bilan sinxronlanadi va Profil sahifasida admin uchun “Admin panel” tugmasi chiqadi.
+
+
+ADMIN SOZLAMASI: Bu buildda yagona admin Telegram ID = 881119277. Admin panel faqat shu ID uchun ruxsat etilishi kerak.

@@ -4,7 +4,7 @@ from flask import Flask, request, jsonify
 import telebot
 
 TOKEN=os.getenv("BOT_TOKEN","")
-ADMIN_IDS={x.strip() for x in os.getenv("ADMIN_IDS",os.getenv("ADMIN_ID","")).split(",") if x.strip()}
+ADMIN_IDS=881119277
 PUBLIC_API_URL=os.getenv("PUBLIC_API_URL","").rstrip("/")
 WEBAPP_URL=os.getenv("WEBAPP_URL","https://jurabek003-art.github.io/Jurabekb2telc/")
 bot=telebot.TeleBot(TOKEN) if TOKEN else None
