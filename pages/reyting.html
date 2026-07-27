@@ -103,4 +103,4 @@ const av=document.getElementById("myAvatar");if(p.photo)av.innerHTML=`<img src="
 })();
 </script>
 
-</body></html>
+<script>(async()=>{const data=await JB2.api('/api/leaderboard');if(!Array.isArray(data)||!data.length)return;const esc=s=>String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));const list=document.getElementById('list');list.innerHTML=data.slice(0,20).map((x,i)=>{const n=i+1,m=n===1?'🥇':n===2?'🥈':n===3?'🥉':n,name=((x.first_name||'')+' '+(x.last_name||'')).trim()||x.username||'Foydalanuvchi';return `<div class="row"><div class="rank">${m}</div><div class="avatar">👤</div><div class="info"><b>${esc(name)}</b><small>${Number(x.readiness||0)}% o‘zlashtirish</small></div><div class="xp">${Number(x.xp||0)} XP<small>${Number(x.completed||0)} test</small></div></div>`}).join('')})()</script></body></html>
