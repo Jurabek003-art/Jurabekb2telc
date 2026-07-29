@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shpargalka Hören Teil 1</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: #111827;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    .back {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .card {
+      background: #1f2937;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 18px;
+    }
+  
+/* Shared responsive shell: phone/tablet/desktop */
+html,body{max-width:100%;overflow-x:hidden}
+@media(min-width:760px){
+  body>main,body>.wrap,body>.container{max-width:1040px;margin-left:auto!important;margin-right:auto!important}
+}
+@media(min-width:1100px){
+  body>main,body>.wrap,body>.container{max-width:1100px}
+}
+
+</style>
+<script src="../app.js"></script>
+</head>
+
+<body>
+
+  <a class="back" href="shpargalka-horen.html">← Orqaga</a>
+
+  <h1>🎧 Hören Teil 1</h1>
+
+  
+<div class="card" style="padding:28px;">
+<h2 style="font-size:32px;text-align:center;">🧠 Kalit so'zlarni yodlash</h2>
+<div id="status" style="text-align:center;font-size:22px;margin-bottom:18px;font-weight:bold">Progress: 1/20 | ⭐ XP: 0</div><div id="game" style="margin-top:20px"></div>
+</div>
+
+<script>
+const levels=[
+{code:"12",correct:["Europäischen","Kulturhauptstadt","Angestellte"]},
+{code:"13",correct:["Wahlbeteiligung","Internationalen"]},
+{code:"14",correct:["Umwetterschaden","Nicht sicher","Unklar","Bankenwelt"]},
+{code:"15",correct:["Erdbeben","Fluggesellschaft","Kunden","Verwendung"]},
+{code:"23",correct:["Deutsche Lufthansa","Wetterlage"]},
+{code:"24",correct:["Bierkonsum","Verbrauch","Die Quote","Kooperation","Zukunft","Spektokulärer","Sudkolefornien"]},
+{code:"25",correct:["Studie"]},
+{code:"34",correct:["Ticket"]},
+{code:"35",correct:["Europawahlen","Bayern","Piloten"]},
+{code:"45",correct:["Insel"]},
+
+{code:"123",correct:["Bild am Sontag","Munchen"]},
+{code:"124",correct:["Arbeitslosen"]},
+{code:"125",correct:["Deutsches Schiff","Schladminger","Bundeslander"]},
+{code:"135",correct:["Europawahlen CDU","Treffen"]},
+{code:"235",correct:["Stadt","Fans"]},
+{code:"345",correct:["Jurgens","Viele Kunden"]},
+{code:"3",correct:["50 Euro"]},
+{code:"134",correct:["Sprecherin","hochsten"]},
+{code:"145",correct:["Statischem"]},
+{code:"1245",correct:["Innenstadte","Erdbeeren","Gewerkschaft"]}
+
+];
+const distractors=["Ticket","Studie","Insel","Bierkonsum","Stadt","Fans","Piloten","Erdbeeren"];
+let idx=0; let xp=0; let mistakes=[];
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function render(){
+ const lv=levels[idx], g=document.getElementById("game");
+document.getElementById("status").textContent=`Progress: ${idx+1}/${levels.length} | ⭐ XP: ${xp}`;
+ let found=0;
+ const pool=shuffle([...lv.correct,...shuffle(distractors).slice(0,4)]);
+ g.innerHTML=`<h2 style="text-align:center;font-size:40px">Kod: ${lv.code}</h2>
+ <div id="p" style="text-align:center;font-size:24px">${found}/${lv.correct.length}</div>`;
+ pool.forEach(w=>{
+  const b=document.createElement("button");
+  b.textContent=w;
+  b.style.cssText="display:block;width:100%;padding:18px;margin:10px 0;font-size:22px;border-radius:14px;border:none;";
+  b.onclick=()=>{
+    if(lv.correct.includes(w)){
+      if(b.disabled)return;
+      b.disabled=true;b.style.background="green";b.style.color="white";
+      found++; xp+=10;
+document.getElementById("status").textContent=`Progress: ${idx+1}/${levels.length} | ⭐ XP: ${xp}`;
+document.getElementById("p").textContent=`${found}/${lv.correct.length}`;
+      if(found===lv.correct.length){
+        idx++;
+        setTimeout(()=>{
+          if(idx<levels.length) render();
+          else alert(`Tabriklaymiz! Barcha kodlar tugadi. XP: ${xp}. Xatolar: ${mistakes.length?mistakes.join(", "):"yo'q"}`);
+        },400);
+      }
+    }else{
+      if(!mistakes.includes(lv.code)) mistakes.push(lv.code); b.style.background="crimson";b.style.color="white";
+      setTimeout(()=>{b.style.background="";b.style.color="";},400);
+    }
+  };
+  g.appendChild(b);
+ });
+}
+render();
+</script>
+
+</body>
+</html>
