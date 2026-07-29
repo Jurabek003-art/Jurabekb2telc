@@ -55,5 +55,38 @@ html,body{max-width:100%;overflow-x:hidden}
     <p>Shpargalka materiallari shu yerga joylashtiriladi.</p>
   </div>
 
+
+<div class="card">
+<h2>🧠 Kalit so'zlarni yodlash</h2>
+<p>Tez orada barcha kodlar (12...1245) shu yerga qo'shiladi.</p>
+<button onclick="startGame()">Boshlash (Demo)</button>
+<div id="game" style="margin-top:15px"></div>
+</div>
+<script>
+const demo={code:"12",correct:["Europäischen","Kulturhauptstadt","Angestellte"],pool:["Europäischen","Bierkonsum","Kulturhauptstadt","Ticket","Angestellte","Studie","Insel","Erdbeben"]};
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function startGame(){
+ let found=0;
+ const g=document.getElementById('game');
+ g.innerHTML='<b>12 kodiga tegishli so\'zlarni toping</b><br><div id=p>0/3</div>';
+ shuffle(demo.pool).forEach(w=>{
+  const b=document.createElement('button');
+  b.textContent=w;
+  b.style.margin='6px';
+  b.onclick=()=>{
+    if(demo.correct.includes(w)){
+      if(b.disabled)return;
+      b.disabled=true;b.style.background='green';found++;
+      document.getElementById('p').textContent=found+'/3';
+      if(found===3) setTimeout(()=>alert('Ajoyib! Endi keyingi kodga o\'tamiz.'),200);
+    }else{
+      b.style.background='crimson';
+      setTimeout(()=>b.style.background='',500);
+    }
+  };
+  g.appendChild(b);
+ });
+}
+</script>
 </body>
 </html>
