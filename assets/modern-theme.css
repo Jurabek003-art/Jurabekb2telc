@@ -1,0 +1,23 @@
+/* Jurabek B2 TELC — Modern UI theme */
+:root{color-scheme:dark;--jm-bg:#070b16;--jm-panel:#101a2c;--jm-panel2:#14213a;--jm-line:rgba(151,170,220,.18);--jm-text:#f4f6ff;--jm-muted:#a8b4cf;--jm-purple:#7950ff;--jm-purple2:#9a6cff;--jm-green:#20d69a;--jm-shadow:0 16px 42px rgba(0,0,0,.28)}
+html{background:var(--jm-bg)!important;scroll-behavior:smooth}
+body{color:var(--jm-text)!important;background:radial-gradient(ellipse at 8% 0%,rgba(82,69,190,.23),transparent 34%),radial-gradient(ellipse at 100% 12%,rgba(30,117,176,.13),transparent 28%),linear-gradient(160deg,#070b16 0%,#0b1221 55%,#0a1020 100%)!important;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;letter-spacing:.005em}
+.app,.wrap,.container,.main,.content{max-width:900px!important;margin-left:auto!important;margin-right:auto!important}
+.hero,.card,.plan,.status,.test,.question,.panel,.section,.stat,.item,.box,.tile,.part,.result,.mock-card,.premium-card,.feature,.lesson,.topic,.modal-content{border-color:var(--jm-line)!important;border-radius:22px!important;box-shadow:var(--jm-shadow)}
+.hero,.card,.plan,.status,.panel,.section,.stat,.item,.tile,.result,.mock-card,.premium-card,.feature,.lesson,.topic,.question{background:linear-gradient(145deg,rgba(20,32,54,.96),rgba(12,21,38,.96))!important}
+.test{background:linear-gradient(145deg,#111d32,#0d1729)!important;transition:transform .18s ease,border-color .18s ease}
+.test:hover,.card:hover,.plan:hover{border-color:rgba(144,111,255,.55)!important;transform:translateY(-1px)}
+h1,h2,h3,h4{color:#f7f8ff!important;letter-spacing:-.025em}
+p,small,.muted,.desc,.subtitle{color:var(--jm-muted)}
+a{color:#c9baff;text-decoration:none}a:hover{color:#fff}
+button,.btn,input[type=submit],.primary,.primary-btn,.start-btn{border:1px solid rgba(255,255,255,.08)!important;border-radius:15px!important;background:linear-gradient(135deg,var(--jm-purple),#6338e8)!important;color:#fff!important;font-weight:750!important;box-shadow:0 8px 24px rgba(104,65,240,.23);transition:transform .16s ease,filter .16s ease}
+button:hover,.btn:hover,input[type=submit]:hover,.primary:hover,.primary-btn:hover,.start-btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+button:disabled{opacity:.55;box-shadow:none}
+input,select,textarea{background:#0b1425!important;color:var(--jm-text)!important;border:1px solid var(--jm-line)!important;border-radius:12px!important;padding:11px 13px}
+.option,.answer,.choice,label.option{background:#101c30!important;color:var(--jm-text)!important;border:1px solid var(--jm-line)!important;border-radius:14px!important}
+.option.correct,.correct,.success{background:rgba(15,120,86,.24)!important;border-color:rgba(32,214,154,.65)!important}
+.option.wrong,.wrong,.error{background:rgba(140,40,68,.23)!important;border-color:rgba(255,94,130,.58)!important}
+hr{border:0;border-top:1px solid var(--jm-line)}
+progress{accent-color:var(--jm-green)}
+header,nav,.bottom-nav,.nav-bar,.tabs{border-color:var(--jm-line)!important}
+@media(max-width:600px){.app,.wrap,.container,.main,.content{padding-left:14px!important;padding-right:14px!important}.hero,.card,.plan,.status,.question{padding:16px!important;border-radius:19px!important}h1{font-size:clamp(24px,7vw,34px)!important}}
